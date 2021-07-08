@@ -26,7 +26,8 @@ function CaseArchive({ history, match }) {
 
   /*** Local States ***/
   const [loadingArchive, setLoadingArchive] = useState(true);
-  const [cases, setCases] = useState("");
+  const [cases, setCases] = useState([]);
+  
 
   useEffect(() => {
     setTimeout(() => {
@@ -55,8 +56,8 @@ function CaseArchive({ history, match }) {
   function Versions() {
     
       return (
-        cases.map((parameter) => 
-        <React.Fragment>
+        cases?.map((parameter) => 
+        <React.Fragment key={parameter.version}>
           <Card>
             <CardContent>
               <Grid container>

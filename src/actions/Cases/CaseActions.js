@@ -7,6 +7,9 @@ import {
   CASE_TRANSFER_FAIL,
   CASE_TRANSFER_REQUEST,
   CASE_TRANSFER_SUCCESS,
+  CASE_ADDENDUM_REQUEST,
+  CASE_ADDENDUM_SUCCESS,
+  CASE_ADDENDUM_FAIL,
   APPROVAL_UPDATE_FAIL,
   APPROVAL_UPDATE_REQUEST,
   APPROVAL_UPDATE_SUCCESS,
@@ -56,7 +59,6 @@ export const createCase = (instance) => async (dispatch, getState) => {
         payload: data,
       });
     }, 1000);
-    
   } catch (error) {
     setTimeout(() => {
       dispatch({
@@ -237,6 +239,46 @@ export const caseUpdateAction = (instance) => async (dispatch, getState) => {
   }
 };
 
+export const caseAddendumAction = (uuid) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: CASE_ADDENDUM_REQUEST,
+    });
+
+    const state = getState();
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${state["Profile"].userLogin["userInfo"].access}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `/api/ST1010/cases/${uuid}/addendum/`,
+      uuid,
+      config
+    );
+    setTimeout(() => {
+      dispatch({
+        type: CASE_ADDENDUM_SUCCESS,
+        payload: data,
+      });
+    }, 1000);
+
+  } catch (error) {
+    setTimeout(() => {
+      dispatch({
+        type: CASE_ADDENDUM_FAIL,
+        payload:
+          error.response && error.response.data.Detail
+            ? error.response.data.Detail
+            : error.message,
+      });
+    }, 2000);
+  }
+};
+
 export const caseDeleteAction = (id) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -267,8 +309,6 @@ export const caseDeleteAction = (id) => async (dispatch, getState) => {
     });
   }
 };
-
-
 
 export const listCases = (
   page = 1,

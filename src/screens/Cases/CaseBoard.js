@@ -46,6 +46,9 @@ function Dashboard() {
   const approvalUpdate = useSelector((state) => state.ST1010["approvalUpdate"]);
   const { successApproval } = approvalUpdate;
 
+  const caseAddendum = useSelector((state) => state.ST1010["caseAddendum"]);
+  const { successAddendum } = caseAddendum;
+
   const searchParameters = useSelector(
     (state) => state.ST1010["searchParameters"]
   );
@@ -79,6 +82,7 @@ function Dashboard() {
     successCreate,
     successTransfer,
     successApproval,
+    successAddendum,
   ]);
 
   /* Statistics */

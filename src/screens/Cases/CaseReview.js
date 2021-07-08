@@ -189,6 +189,7 @@ function CaseReview({ history, match }) {
         .then(function (response) {
           setReviewSuccess(true);
           dispatch(caseDetailsAction(match.params.id));
+          setOpenReviewDialog(false);
         });
     } catch (error) {
       setReviewError(
@@ -196,6 +197,7 @@ function CaseReview({ history, match }) {
           ? error.response.data.Detail
           : error.message
       );
+      setOpenReviewDialog(false);
     }
   }
 

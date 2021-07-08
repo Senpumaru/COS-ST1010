@@ -14,6 +14,9 @@ import {
   CASE_TRANSFER_REQUEST,
   CASE_TRANSFER_SUCCESS,
   CASE_TRANSFER_FAIL,
+  CASE_ADDENDUM_REQUEST,
+  CASE_ADDENDUM_SUCCESS,
+  CASE_ADDENDUM_FAIL,
   APPROVAL_UPDATE_FAIL,
   APPROVAL_UPDATE_REQUEST,
   APPROVAL_UPDATE_SUCCESS,
@@ -145,6 +148,31 @@ export const approvalUpdateReducer = (state = {}, action) => {
   }
 };
 
+export const caseAddendumReducer = createReducer(
+  initialCaseCreateState,
+  (builder) => {
+    builder
+      .addCase(CASE_ADDENDUM_REQUEST, (state, action) => {
+        state.loadingAddendum = true;
+        state.successAddendum = false;
+        state.errorAddendum = false;
+      })
+      .addCase(CASE_ADDENDUM_SUCCESS, (state, action) => {
+        state.loadingAddendum = false;
+        state.successAddendum = true;
+        state.instance = action.payload;
+      })
+      .addCase(CASE_ADDENDUM_FAIL, (state, action) => {
+        state.loadingAddendum = false;
+        state.successAddendum = false;
+        state.errorAddendum = action.payload;
+      })
+      .addDefaultCase((state, action) => {
+        state = {};
+      });
+  }
+);
+
 export const caseDeleteReducer = (state = {}, action) => {
   switch (action.type) {
     case CASE_DELETE_REQUEST:
@@ -161,7 +189,7 @@ export const caseDeleteReducer = (state = {}, action) => {
   }
 };
 
-// Initial State
+
 const initialState = { cases: [] };
 
 export const caseListReducer = (state = initialState, action) => {
@@ -186,7 +214,7 @@ export const caseListReducer = (state = initialState, action) => {
   }
 };
 
-// Initial State
+
 export const caseStatisticsReducer = (state = {}, action) => {
   switch (action.type) {
     case CASE_STATISTICS_REQUEST:

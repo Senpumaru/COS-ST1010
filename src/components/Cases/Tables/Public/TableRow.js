@@ -32,6 +32,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   approvalUpdateAction,
+  caseAddendumAction,
   caseTransferAction,
 } from "../../../../actions/Cases/CaseActions";
 import Extension from "./Row/Extension";
@@ -457,56 +458,58 @@ function RowExpansion(props) {
                 </IconButton>
               </Grid>
               {row.version_state === "Verified" && editorExists && (
-              <Grid item>
-                <IconButton
-                  className={classes.tableButton}
-                  onClick={handleOpenAddendumDialog}
-                >
-                  <Tooltip title="Поправка" aria-label="modify">
-                    <RateReviewIcon className={classes.icons} />
-                  </Tooltip>
-                </IconButton>
-                <React.Fragment>
-                  <Dialog
-                    open={openAddendumDialog}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
+                <Grid item>
+                  <IconButton
+                    className={classes.tableButton}
+                    onClick={handleOpenAddendumDialog}
                   >
-                    <DialogTitle
-                      className={classes.dialogTitle}
-                      id="transfer-dialog-title"
+                    <Tooltip title="Поправка" aria-label="modify">
+                      <RateReviewIcon className={classes.icons} />
+                    </Tooltip>
+                  </IconButton>
+                  <React.Fragment>
+                    <Dialog
+                      open={openAddendumDialog}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
                     >
-                      Поправка отчета (создание новой версии)
-                    </DialogTitle>
-                    <DialogContent>
-                      <DialogContentText id="alert-dialog-description">
-                        <strong>Внимание!</strong>
-                        <br />
-                        Данное действие приведет к нынешней версии отчета быть
-                        переведеной в архив. Новая версия кейса будет создана и
-                        требует утверждения предыдущих консультатнов. 
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button
-                        onClick={handleCloseAddendumDialog}
-                        variant="outlined"
-                        color="primary"
+                      <DialogTitle
+                        className={classes.dialogTitle}
+                        id="transfer-dialog-title"
                       >
-                        Отмена
-                      </Button>
-                      <Button
-                        // onClick={}
-                        variant="outlined"
-                        color="primary"
-                        autoFocus
-                      >
-                        Произвести поправку
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
-                </React.Fragment>
-              </Grid>)}
+                        Поправка отчета (создание новой версии)
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          <strong>Внимание!</strong>
+                          <br />
+                          Данное действие приведет к переведению в архив
+                          нынешней версии отчета . Новая версия кейса будет
+                          создана и будет требовать утверждения предыдущих
+                          консультантов (новых, если потребуется).
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button
+                          onClick={handleCloseAddendumDialog}
+                          variant="outlined"
+                          color="primary"
+                        >
+                          Отмена
+                        </Button>
+                        <Button
+                          onClick={() => (dispatch(caseAddendumAction(row.uuid)))}
+                          variant="outlined"
+                          color="primary"
+                          autoFocus
+                        >
+                          Произвести поправку
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </React.Fragment>
+                </Grid>
+              )}
             </Grid>
           </TableCell>
         ) : (
