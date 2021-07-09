@@ -73,11 +73,10 @@ function Extension(props) {
           </Grid>
           <Grid item md={12} xs={12}>
             <div style={{ display: "flex", alignItems: "baseline" }}>
-              <Typography noWrap className={classes.expansionSubTitle}>
+              <Typography className={classes.expansionSubTitle}>
                 Диагноз:
               </Typography>
               <Typography
-                noWrap
                 className={classes.expansionSubText}
                 style={{ marginLeft: 10 }}
               >

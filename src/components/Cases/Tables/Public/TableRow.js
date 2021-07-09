@@ -338,7 +338,7 @@ function RowExpansion(props) {
               </React.Fragment>
               <Grid item>
                 {userInfo["credentials"]["registrar"] && row.case_creator ? (
-                  ["credentials"]?.Clinician &&
+                  row.case_creator["ST1010_Permission"]["clinician"] &&
                   row?.case_assistant === null && (
                     <IconButton
                       className={classes.tableButton}

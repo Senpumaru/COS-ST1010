@@ -116,7 +116,6 @@ function CreationForm() {
 
   /* Consultants Autocompletion choices */
   const [pathologistServerList, setPathologistServerList] = useState([]);
-  console.log(pathologistServerList)
   const [consultantServerList, setConsultantServerList] = useState([]);
   // Selected values
   const [pathologistValue, setPathologistValue] = useState("");
@@ -271,7 +270,33 @@ function CreationForm() {
                   )}
                 />
               </Grid>
-              <Grid item md={4} sm={4} xs={12}>
+              <Grid item md={4} sm={6} xs={12}>
+                <Controller
+                  name="caseSender"
+                  control={control}
+                  rules={{
+                    required: "Обязталеьное поле",
+                    maxLength: {
+                      value: 50,
+                      message: "Слишком много символов",
+                    },
+                  }}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      inputProps={{ type: "text" }}
+                      label="Направивший врач"
+                      variant="outlined"
+                      error={errors.caseSender ? true : false}
+                      helperText={
+                        errors?.caseSender && errors.caseSender.message
+                      }
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item md={4} sm={6} xs={12}>
                 <Controller
                   render={(props) => (
                     <Autocomplete
@@ -317,7 +342,7 @@ function CreationForm() {
                   // defaultValue={null} // this prevents the "controlled/uncontrolled change" error
                 />
               </Grid>
-              <Grid item md={4} sm={4} xs={12}>
+              <Grid item md={4} sm={12} xs={12}>
                 <Autocomplete
                   multiple
                   id="consultants-id"
@@ -351,32 +376,7 @@ function CreationForm() {
                   )}
                 />
               </Grid>
-              <Grid item md={4} sm={4} xs={12}>
-                <Controller
-                  name="caseSender"
-                  control={control}
-                  rules={{
-                    required: "Обязталеьное поле",
-                    maxLength: {
-                      value: 50,
-                      message: "Слишком много символов",
-                    },
-                  }}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      fullWidth
-                      inputProps={{ type: "text" }}
-                      label="Направивший врач"
-                      variant="outlined"
-                      error={errors.caseSender ? true : false}
-                      helperText={
-                        errors?.caseSender && errors.caseSender.message
-                      }
-                    />
-                  )}
-                />
-              </Grid>
+              
             </Grid>
           </Grid>
           <hr />

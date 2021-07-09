@@ -14,6 +14,10 @@ import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
 import Loader from "../../components/Loader";
 
 const useRowStyles = makeStyles({
+  screenTitle: {
+    fontSize: 20,
+    fontWeight: 600,
+  },
   icons: {
     padding: 2,
     fontSize: "2rem",
@@ -54,7 +58,7 @@ function CaseArchive({ history, match }) {
   };
 
   function Versions() {
-    
+    if (cases.length > 1) {
       return (
         cases?.map((parameter) => 
         <React.Fragment key={parameter.version}>
@@ -87,13 +91,15 @@ function CaseArchive({ history, match }) {
           </Card>
         </React.Fragment>)
       );
-    }
+    } else {
+      return (<div></div>)
+    }}
   
 
   return (
     <React.Fragment>
       <Box p={2}>
-        <Typography>
+        <Typography className={classes.screenTitle}>
           Архивы кейса: {match.params.code}-{match.params.number}
         </Typography>
         {loadingArchive && <Loader></Loader>}
