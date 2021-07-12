@@ -96,7 +96,7 @@ function Dashboard() {
       <TabContext value={tabValue}>
         <TabList onChange={handleTabValue} aria-label="Menu">
           <Tab label="Кейсы" value="Cases" />
-          {/* <Tab label="Статистика" value="Statistics" /> */}
+          <Tab label="Статистика" value="Statistics" />
           {/* <Tab
             label={
               <Badge color="secondary" badgeContent={22}>
@@ -110,9 +110,9 @@ function Dashboard() {
           <CreationFormAccess />
           <CaseTable />
         </TabPanel>
-        {/* <TabPanel value="Statistics">
+        <TabPanel value="Statistics">
           <Statistics />
-        </TabPanel> */}
+        </TabPanel>
         <TabPanel value="Cabinet">...</TabPanel>
       </TabContext>
     </React.Fragment>

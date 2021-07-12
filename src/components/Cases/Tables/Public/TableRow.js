@@ -297,8 +297,11 @@ function RowExpansion(props) {
                   </DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                      Это окно предназначено для утверждение кейса, для
-                      последующего создания отчета
+                      Любое изменение в заключении данного кейса со стороны
+                      патолога приведет к обнулению вашего решения. Можете
+                      поменять решение в любое время до публикации данной версии
+                      кейса. При утверждении кейса всеми консультантами, кейс
+                      будет доступен для
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>
@@ -498,7 +501,7 @@ function RowExpansion(props) {
                           Отмена
                         </Button>
                         <Button
-                          onClick={() => (dispatch(caseAddendumAction(row.uuid)))}
+                          onClick={() => dispatch(caseAddendumAction(row.uuid))}
                           variant="outlined"
                           color="primary"
                           autoFocus

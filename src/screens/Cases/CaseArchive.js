@@ -31,7 +31,7 @@ function CaseArchive({ history, match }) {
   /*** Local States ***/
   const [loadingArchive, setLoadingArchive] = useState(true);
   const [cases, setCases] = useState([]);
-  
+ 
 
   useEffect(() => {
     setTimeout(() => {
@@ -58,7 +58,7 @@ function CaseArchive({ history, match }) {
   };
 
   function Versions() {
-    if (cases.length > 1) {
+    if (cases.length >= 1) {
       return (
         cases?.map((parameter) => 
         <React.Fragment key={parameter.version}>
