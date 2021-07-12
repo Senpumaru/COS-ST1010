@@ -105,7 +105,7 @@ export default function App() {
                     </IconButton>
                     <img alt="App Logo" src={logo} className={classes.logo} />
                     <Typography variant="h6" hidden={isMdUp ? false : true} noWrap>
-                        Система сервисов
+                        ИГХ: ALK
                     </Typography>
                     <section className={classes.rightToolbar} >
                         {userInfo
