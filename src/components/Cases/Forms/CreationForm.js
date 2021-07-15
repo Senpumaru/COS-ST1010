@@ -18,6 +18,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import Alert from "@material-ui/lab/Alert";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import {
+  DatePicker,
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
@@ -59,6 +60,7 @@ const useStyles = makeStyles({
   },
 });
 
+
 function CreationForm() {
   const classes = useStyles();
 
@@ -73,7 +75,8 @@ function CreationForm() {
 
   /*** React Hook Form ***/
   const defaultValues = {
-    dateRegistration: new Date(),
+    dateDispatch: null,
+    dateAcquisition: null,
     institutionCode: "",
     diagnosis: "",
     caseEditor: "",
@@ -89,6 +92,7 @@ function CreationForm() {
     control,
     formState: { errors },
     setValue,
+    register,
     reset,
   } = useForm({ mode: "onBlur", defaultValues });
 
@@ -119,7 +123,6 @@ function CreationForm() {
   const [consultantServerList, setConsultantServerList] = useState([]);
   // Selected values
   const [pathologistValue, setPathologistValue] = useState("");
-  
   const [consultantsValues, setConsultantsValues] = useState([]);
   // Data Fetching
   useEffect(async () => {
@@ -156,7 +159,7 @@ function CreationForm() {
     dispatch(createCase(data));
     setTimeout(() => {
       setOpenAlert(false);
-    }, 6000);
+    }, 3000);
   };
 
   return (
@@ -178,17 +181,22 @@ function CreationForm() {
             justify={"flex-start"}
           >
             <Grid container item xs={12} spacing={1}>
-              <Grid item md={3} sm={4} xs={12}>
+              <Grid item md={4} sm={4} xs={12}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
                   <Controller
-                    name="dateRegistration"
+                    name="dateDispatch"
                     control={control}
+                    rules={{
+                      required: "Укажите",
+                    }}
                     render={({ field: { ref, ...rest } }) => (
                       <KeyboardDatePicker
                         {...rest}
                         fullWidth
-                        id="date-registration"
-                        label="Дата регистрации"
+                        animateYearScrolling
+                        defaultChecked={false}
+                        id="dateDispatch-id"
+                        label="Дата направления"
                         format="dd/MM/yyyy"
                         maxDate={new Date()}
                         variant="inline"
@@ -201,7 +209,33 @@ function CreationForm() {
                   />
                 </MuiPickersUtilsProvider>
               </Grid>
-              <Grid item md={7} sm={8} xs={12}>
+              <Grid item md={4} sm={4} xs={12}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
+                  <Controller
+                    name="dateAcquisition"
+                    control={control}
+                    rules={{
+                      required: "Укажите",
+                    }}
+                    render={({ field: { ref, ...rest } }) => (
+                      <KeyboardDatePicker
+                        {...rest}
+                        fullWidth
+                        id="dateAcquisition-id"
+                        label="Дата получения материала"
+                        format="dd/MM/yyyy"
+                        maxDate={new Date()}
+                        variant="inline"
+                        inputVariant="outlined"
+                        KeyboardButtonProps={{
+                          "aria-label": "change date",
+                        }}
+                      />
+                    )}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+              <Grid item md={10} sm={10} xs={12}>
                 <Controller
                   name="institutionCode"
                   control={control}
@@ -231,7 +265,7 @@ function CreationForm() {
                   )}
                 />
               </Grid>
-              <Grid item md={2} sm={4} xs={12}>
+              <Grid item md={2} sm={2} xs={12}>
                 <TextField
                   required
                   fullWidth
@@ -411,7 +445,7 @@ function CreationForm() {
                       )}
                       name={`blockCodes[${index}].blockCode`}
                       rules={{
-                        required: "Поле обязательное",
+                        
                       }}
                       control={control}
                       mode="onBlur"
@@ -479,7 +513,7 @@ function CreationForm() {
                         />
                       )}
                       rules={{
-                        required: "Поле обязательное",
+                      
                         pattern: {
                           value: /[0-9-/]*/i,
                           message: "Допустимы толкько цифры, -, /",

@@ -28,6 +28,7 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
 import Loader from "../../components/Loader";
+import DialogReview from "../../components/Dialogs/DialogReview";
 
 const useStyles = makeStyles({
   screenTitle: {
@@ -319,18 +320,18 @@ function CaseReview({ history, match }) {
                               {item["last_name"] + " " + item["first_name"]}
                             </Typography>
                             Решение:{" "}
-                            <Typography>
+                            <div>
                               {(() => {
                                 switch (approval) {
                                   case true:
-                                    return <div>Утвержден</div>;
+                                    return <Typography>Утвержден</Typography>;
                                   case false:
-                                    return <div>Не утвержден</div>;
+                                    return <Typography>Не утвержден</Typography>;
                                   default:
-                                    return <div>Нет ответа</div>;
+                                    return <Typography>Нет ответа</Typography>;
                                 }
                               })()}
-                            </Typography>
+                            </div>
                             {userInfo["id"] == item["id"] &&
                               userInfo["credentials"]["consultant"] ===
                                 true && (
@@ -388,84 +389,9 @@ function CaseReview({ history, match }) {
                         </DialogActions>
                       </Dialog>
                     </React.Fragment>
-                    <React.Fragment>
-                      <Dialog
-                        open={openApprovalAlert}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                      >
-                        <DialogTitle
-                          className={classes.dialogTitle}
-                          id="alert-dialog-title"
-                        >
-                          <Grid
-                            container
-                            direction="row"
-                            justify="space-between"
-                            alignItems="center"
-                          >
-                            <Grid item>{"Утверждение кейса"}</Grid>
-                            <Grid item>
-                              <IconButton
-                                aria-label="close"
-                                className={classes.icons}
-                                onClick={handleCloseApproveAlert}
-                              >
-                                <CloseIcon />
-                              </IconButton>
-                            </Grid>
-                          </Grid>
-                        </DialogTitle>
+                    <DialogReview approveCase={approveCase} handleApprovalChoice={handleApprovalChoice} approvalChoice={approvalChoice} openApprovalAlert={openApprovalAlert} handleCloseApproveAlert={handleCloseApproveAlert}/>
 
-                        <DialogContent>
-                          <DialogContentText
-                            className={classes.dialogWarning}
-                            id="Dialog-description-id"
-                          >
-                            <strong>Внимание!</strong>
-                            <br />
-                            Любое изменение в заключении данного кейса со
-                            стороны патолога приведет к обнулению вашего
-                            решения. Можете поменять решение в любое время до
-                            публикации данной версии кейса. При утверждении
-                            кейса всеми консультантами, кейс будет доступен для
-                            публикации.
-                          </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                          <RadioGroup
-                            aria-label="approval"
-                            name="approval"
-                            value={approvalChoice}
-                            onChange={handleApprovalChoice}
-                          >
-                            <Grid container>
-                              <Grid>
-                                <FormControlLabel
-                                  value={"Yes"}
-                                  control={<Radio />}
-                                  label="Утверждаю"
-                                />
-                              </Grid>
-                              <Grid item>
-                                <FormControlLabel
-                                  value={"No"}
-                                  control={<Radio />}
-                                  label="Не утверждаю"
-                                />
-                              </Grid>
-                            </Grid>
-                          </RadioGroup>
-                          <Button
-                            onClick={approveCase}
-                            color="secondary"
-                            variant="contained"
-                          >
-                            Ответ
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
-                    </React.Fragment>
+                    
                   </Grid>
                 </CardContent>
               </Card>

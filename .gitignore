@@ -5,7 +5,8 @@
 /.pnp
 .pnp.js
 
-# testing
+# Testing
+/Supplementary
 /coverage
 
 # production

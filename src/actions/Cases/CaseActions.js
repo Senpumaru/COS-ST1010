@@ -265,7 +265,6 @@ export const caseAddendumAction = (uuid) => async (dispatch, getState) => {
         payload: data,
       });
     }, 1000);
-
   } catch (error) {
     setTimeout(() => {
       dispatch({
@@ -331,7 +330,12 @@ export const listCases = (
       const pageVar = `?page=${page}`;
       const pageSizeVar = `&page_size=${pageSize}`;
       const sortColumnVar = `&ordering=${sortColumn}`;
-      const filterDateRegisterGTEVar = `&date_of_registration_gte=${filterDateRegisterGTE}`;
+      var filterDateRegisterGTEVar = ""
+      if (filterDateRegisterGTE != null) {
+        filterDateRegisterGTEVar = `&date_of_registration_gte=${filterDateRegisterGTE}`;
+      } else {
+        filterDateRegisterGTEVar = ""
+      }
       const filterDateRegisterLTEVar = `&date_of_registration_lte=${filterDateRegisterLTE}`;
       const filterInstitutionVar = `&institution_code=${filterInstitution}`;
 

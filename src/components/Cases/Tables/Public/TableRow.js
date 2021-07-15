@@ -132,6 +132,7 @@ function RowExpansion(props) {
   }
   // Access
   var editingAction = false;
+  
   if (row?.version_state === "In-progress") {
     if (
       userInfo["credentials"]["pathologist"] === true &&
@@ -140,7 +141,6 @@ function RowExpansion(props) {
     ) {
       editingAction = true;
     } else if (
-      userInfo["credentials"]["registrar"] === true &&
       (userInfo.id === row?.case_creator?.id ||
         userInfo.id === row?.case_assistant?.id) &&
       row?.clinical_interpretation === null
@@ -158,6 +158,8 @@ function RowExpansion(props) {
   } else {
     editingAction = false;
   }
+
+  
 
   /* Case Approval */
   // Access

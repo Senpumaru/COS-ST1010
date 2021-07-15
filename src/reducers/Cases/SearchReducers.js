@@ -18,7 +18,7 @@ const initialStateSearch = {
   sortColumn: "-date_of_registration",
 
   filters: {
-    "dateRegisterGTE": currentDate,
+    "dateRegisterGTE": null,
     "dateRegisterLTE": currentDate,
     "personalNumber": "",
     "institution": ""

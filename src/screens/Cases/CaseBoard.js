@@ -13,10 +13,7 @@ import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  listCases,
-  statisticsCases,
-} from "../../actions/Cases/CaseActions";
+import { listCases, statisticsCases } from "../../actions/Cases/CaseActions";
 import CreationFormAccess from "../../components/Cases/Forms/CreationFormAccess";
 import Statistics from "../../components/Cases/Statistics";
 import CaseTable from "../../components/Cases/Tables/Public/Table";
@@ -64,12 +61,18 @@ function Dashboard() {
 
   /* Table Search */
   useEffect(() => {
+    var dateRegGTE;
+    if (filters.dateRegisterGTE === null) {
+      dateRegGTE = filters.dateRegisterGTE;
+    } else {
+      dateRegGTE = filters.dateRegisterGTE.toISOString().split("T")[0];
+    }
     dispatch(
       listCases(
         page,
         pageSize,
         sortColumn,
-        filters.dateRegisterGTE.toISOString().split("T")[0],
+        dateRegGTE,
         filters.dateRegisterLTE.toISOString().split("T")[0],
         filters.institution
       )
@@ -97,14 +100,14 @@ function Dashboard() {
         <TabList onChange={handleTabValue} aria-label="Menu">
           <Tab label="Кейсы" value="Cases" />
           <Tab label="Статистика" value="Statistics" />
-          {/* <Tab
+          <Tab
             label={
-              <Badge color="secondary" badgeContent={22}>
+              <Badge color="secondary" badgeContent={0}>
                 Личный кабинет
               </Badge>
             }
             value="Cabinet"
-          /> */}
+          />
         </TabList>
         <TabPanel value="Cases">
           <CreationFormAccess />

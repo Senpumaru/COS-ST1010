@@ -21,7 +21,7 @@ function Copyright() {
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link color="inherit" href="#">
-                ACS
+                COS (Centralized Oncology Services)
       </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -90,7 +90,7 @@ export default function LoginScreen({ location, history }) {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Вход
+                    Вход в приложение ИГХ: ALK
         </Typography>
                 <form className={classes.form} onSubmit={submitHandler}>
                     <TextField
