@@ -31,6 +31,7 @@ import {
   caseDetailsAction,
   caseUpdateAction,
 } from "../../../actions/Cases/CaseActions";
+import DialogDelete from "../../Dialogs/DialogDelete";
 import Loader from "../../Loader";
 
 const useStyles = makeStyles({
@@ -77,11 +78,13 @@ const INSTITUTION_CHOICES = [
 
 const CASE_CHOICES = [
   {
-    value: "Гранулярное цитоплазматическое окрашивание опухолевых клеток высокой интенсивности не определяется",
+    value:
+      "Гранулярное цитоплазматическое окрашивание опухолевых клеток высокой интенсивности не определяется",
     label: "Гранулярное окрашивание высокой интенсивности не определяется",
   },
   {
-    value: "В большинстве опухолевых клеток определяется гранулярное цитоплазматическое окрашивание высокой интенсивности",
+    value:
+      "В большинстве опухолевых клеток определяется гранулярное цитоплазматическое окрашивание высокой интенсивности",
     label: "В большинстве определяется окрашивание высокой интенсивности",
   },
 ];
@@ -168,8 +171,16 @@ function UpdateForm({ history, match }) {
       const pathologists = await axios(`/api/ST1010/pathologists`);
       const consultants = await axios(`/api/ST1010/consultants`);
 
-      setConsultants(consultants.data.map(function (item) {return item.user}));
-      setPathologists(pathologists.data.map(function (item) {return item.user}));
+      setConsultants(
+        consultants.data.map(function (item) {
+          return item.user;
+        })
+      );
+      setPathologists(
+        pathologists.data.map(function (item) {
+          return item.user;
+        })
+      );
     };
     fetchData();
   }, []);
@@ -203,8 +214,7 @@ function UpdateForm({ history, match }) {
       } else {
         setValue("histologicalDescription", "");
       }
-      
-      
+
       if (instance.staining_pattern != null) {
         setValue("stainingPattern", instance.staining_pattern);
       } else {
@@ -221,7 +231,6 @@ function UpdateForm({ history, match }) {
 
   /** PUT **/
   const onSubmit = (data, event) => {
-    
     data["uuid"] = caseUUID;
     if (typeof data["dateRegistration"] != "string") {
       data["dateRegistration"] = data["dateRegistration"]
@@ -249,24 +258,21 @@ function UpdateForm({ history, match }) {
   };
 
   /** DELETE **/
-  const [openDeleteAlert, setOpenDeleteAlert] = React.useState(false);
+  const [openDeleteDialog, setOpenDeleteAlert] = React.useState(false);
 
   const handleOpenDeleteAlert = () => {
     setOpenDeleteAlert(true);
   };
 
-  const handleCloseDeleteAlert = () => {
+  const handleCloseDeleteDialog = () => {
     setOpenDeleteAlert(false);
   };
-  const deleteCase = () => {
-    dispatch(caseDeleteAction(instance.uuid));
-    history.push("/ST1010");
-  };
+  
 
   /* Form submission */
   const defaultValues = {
-    histologicalDescription: ""
-  }
+    histologicalDescription: "",
+  };
 
   const {
     handleSubmit,
@@ -290,7 +296,8 @@ function UpdateForm({ history, match }) {
     if (instance) {
       if (
         userInfo.credentials["pathologist"] &&
-        userInfo.id === instance?.case_editor?.id
+        (userInfo.id === instance?.case_creator?.id ||
+          userInfo.id === instance?.case_editor?.id)
       ) {
         return (
           <Button variant="contained" type="submit" color="primary">
@@ -340,7 +347,8 @@ function UpdateForm({ history, match }) {
     if (instance) {
       if (
         userInfo.credentials["pathologist"] &&
-        userInfo.id === instance?.case_editor?.id
+        (userInfo.id === instance?.case_creator?.id ||
+          userInfo.id === instance?.case_editor?.id)
       ) {
         return (
           <Button
@@ -558,7 +566,6 @@ function UpdateForm({ history, match }) {
                   </Grid>
                   <Grid item md={12} sm={12} xs={12}>
                     <Autocomplete
-                      
                       id="consultants-id"
                       defaultValue={[]}
                       multiple
@@ -577,7 +584,6 @@ function UpdateForm({ history, match }) {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          
                           label="Консультанты"
                           name="consultants"
                           placeholder="Выбрать консультантов"
@@ -587,7 +593,6 @@ function UpdateForm({ history, match }) {
                       )}
                     />
                   </Grid>
-                  
                 </Grid>
                 <hr />
                 <Grid
@@ -733,193 +738,189 @@ function UpdateForm({ history, match }) {
                   {instance?.case_editor &&
                   userInfo?.credentials["pathologist"] &&
                   userInfo.id === instance?.case_editor?.id ? (
-                    
-                      <React.Fragment>
-                        <Typography
-                          className={classes.cardTitle}
-                          color="textSecondary"
-                          gutterBottom
-                        >
-                          <strong>Форма заключения</strong>
-                        </Typography>
-                        <Grid container spacing={1}>
-                          <Grid item md={6} sm={12} xs={12}>
-                            <Controller
-                              name="microscopicDescription"
-                              defaultValue={""}
-                              control={control}
-                              rules={{
-                                required: "Обязталеьное поле",
-                                maxLength: {
-                                  value: 500,
-                                  message: "Вы вышли за лимит символов",
-                                },
-                              }}
-                              render={({ field }) => (
-                                <TextField
-                                  {...field}
-                                  fullWidth
-                                  multiline
-                                  rowsMax="5"
-                                  
-                                  label="Микроскопическое описание"
-                                  name="microscopicDescription"
-                                  // value={microscopicDescription}
-                                  color="primary"
-                                  variant="outlined"
-                                  error={
-                                    errors.microscopicDescription ? true : false
-                                  }
-                                  helperText={
-                                    errors?.microscopicDescription &&
-                                    errors.microscopicDescription.message
-                                  }
-                                  // onChange={(event) => setmicroscopicDescription(event.target.value)}
-                                />
-                              )}
-                            />
-                          </Grid>
-                          <Grid item md={6} sm={12} xs={12}>
-                            <Controller
-                              name="histologicalDescription"
-                              defaultValue={""}
-                              control={control}
-                              rules={{
-                                required: "Обязталеьное поле",
-                                maxLength: {
-                                  value: 500,
-                                  message: "Вы вышли за лимит символов",
-                                },
-                              }}
-                              render={({ field }) => (
-                                <TextField
-                                  {...field}
-                                  fullWidth
-                                  multiline
-                                  rowsMax="5"
-                                  
-                                  label="Гистологическое заключение"
-                                  name="histologicalDescription"
-                                  
-                                  color="primary"
-                                  variant="outlined"
-                                  error={
-                                    errors.histologicalDescription ? true : false
-                                  }
-                                  helperText={
-                                    errors?.histologicalDescription &&
-                                    errors.histologicalDescription.message
-                                  }
-                                  
-                                />
-                              )}
-                            />
-                          </Grid>
-                          <Grid item md={12} s={12} xs={12}>
-                            <Controller
-                              name="stainingPattern"
-                              control={control}
-                              defaultValue=""
-                              rules={{
-                                required: "Обязательное поле",
-                              }}
-                              render={({ field }) => (
-                                <TextField
-                                  {...field}
-                                  
-                                  fullWidth
-                                  select
-                                  helperText=""
-                                  label="Паттерн"
-                                  name="stainingPattern"
-                                  // value={stainingPattern}
-                                  defaultValue=""
-                                  color="primary"
-                                  variant="outlined"
-                                  // onChange={(event) => setstainingPattern(event.target.value)}
-                                >
-                                  {CASE_CHOICES.map((option) => (
-                                    <MenuItem
-                                      key={option.value}
-                                      value={option.value}
-                                    >
-                                      {option.label}
-                                    </MenuItem>
-                                  ))}
-                                </TextField>
-                              )}
-                            />
-                          </Grid>
-                          <Grid item md={4} s={4} xs={4}>
-                            <MuiPickersUtilsProvider
-                              utils={DateFnsUtils}
-                              locale={ruLocale}
-                            >
-                              <Controller
-                                name="dateReport"
-                                control={control}
-                                rules={{
-                                  required: "Обязталеьное поле",
-                                }}
-                                defaultValue={new Date()}
-                                render={({ field: { ref, ...rest } }) => (
-                                  <KeyboardDatePicker
-                                    {...rest}
-                                    fullWidth
-                                    id="date-response"
-                                    label="Дата заключения"
-                                    format="dd/MM/yyyy"
-                                    variant="inline"
-                                    inputVariant="outlined"
-                                    maxDate={new Date()}
-                                    KeyboardButtonProps={{
-                                      "aria-label": "change date",
-                                    }}
-                                  />
-                                )}
+                    <React.Fragment>
+                      <Typography
+                        className={classes.cardTitle}
+                        color="textSecondary"
+                        gutterBottom
+                      >
+                        <strong>Форма заключения</strong>
+                      </Typography>
+                      <Grid container spacing={1}>
+                        <Grid item md={6} sm={12} xs={12}>
+                          <Controller
+                            name="microscopicDescription"
+                            defaultValue={""}
+                            control={control}
+                            rules={{
+                              required: "Обязталеьное поле",
+                              maxLength: {
+                                value: 500,
+                                message: "Вы вышли за лимит символов",
+                              },
+                            }}
+                            render={({ field }) => (
+                              <TextField
+                                {...field}
+                                fullWidth
+                                multiline
+                                rowsMax="5"
+                                label="Микроскопическое описание"
+                                name="microscopicDescription"
+                                // value={microscopicDescription}
+                                color="primary"
+                                variant="outlined"
+                                error={
+                                  errors.microscopicDescription ? true : false
+                                }
+                                helperText={
+                                  errors?.microscopicDescription &&
+                                  errors.microscopicDescription.message
+                                }
+                                // onChange={(event) => setmicroscopicDescription(event.target.value)}
                               />
-                            </MuiPickersUtilsProvider>
-                          </Grid>
-                          
-                          <Grid item md={8} sm={8} xs={12}>
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={6} sm={12} xs={12}>
+                          <Controller
+                            name="histologicalDescription"
+                            defaultValue={""}
+                            control={control}
+                            rules={{
+                              required: "Обязталеьное поле",
+                              maxLength: {
+                                value: 500,
+                                message: "Вы вышли за лимит символов",
+                              },
+                            }}
+                            render={({ field }) => (
+                              <TextField
+                                {...field}
+                                fullWidth
+                                multiline
+                                rowsMax="5"
+                                label="Гистологическое заключение"
+                                name="histologicalDescription"
+                                color="primary"
+                                variant="outlined"
+                                error={
+                                  errors.histologicalDescription ? true : false
+                                }
+                                helperText={
+                                  errors?.histologicalDescription &&
+                                  errors.histologicalDescription.message
+                                }
+                              />
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={12} s={12} xs={12}>
+                          <Controller
+                            name="stainingPattern"
+                            control={control}
+                            defaultValue=""
+                            rules={{
+                              required: "Обязательное поле",
+                            }}
+                            render={({ field }) => (
+                              <TextField
+                                {...field}
+                                fullWidth
+                                select
+                                helperText=""
+                                label="Паттерн"
+                                name="stainingPattern"
+                                // value={stainingPattern}
+                                defaultValue=""
+                                color="primary"
+                                variant="outlined"
+                                // onChange={(event) => setstainingPattern(event.target.value)}
+                              >
+                                {CASE_CHOICES.map((option) => (
+                                  <MenuItem
+                                    key={option.value}
+                                    value={option.value}
+                                  >
+                                    {option.label}
+                                  </MenuItem>
+                                ))}
+                              </TextField>
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={4} s={4} xs={4}>
+                          <MuiPickersUtilsProvider
+                            utils={DateFnsUtils}
+                            locale={ruLocale}
+                          >
                             <Controller
-                              name="clinicalInterpretation"
+                              name="dateReport"
                               control={control}
-                              defaultValue={""}
                               rules={{
-                                required: "Обязательное поле",
+                                required: "Обязталеьное поле",
                               }}
-                              render={({ field }) => (
-                                <TextField
-                                  {...field}
-                                  
+                              defaultValue={new Date()}
+                              render={({ field: { ref, ...rest } }) => (
+                                <KeyboardDatePicker
+                                  {...rest}
                                   fullWidth
-                                  select
-                                  name="clinicalInterpretation"
-                                  label="Клиническая интерпретация"
-                                  id="demo-simple-select-outlined"
-                                  // value={clinicalInterpretation}
-                                  defaultValue={""}
-                                  
-                                  variant="outlined"
-                                  error={errors.clinicalInterpretation ? true : false}
-                                  helperText={errors?.clinicalInterpretation && errors.clinicalInterpretation.message}
-
-                                  // onChange={(event) => setclinicalInterpretation(event.target.value)}
-                                >
-                                  <MenuItem value={"ALK-Positive"}>
-                                    ALK Позитивный
-                                  </MenuItem>
-                                  <MenuItem value={"ALK-Negative"}>
-                                    ALK Негативный
-                                  </MenuItem>
-                                </TextField>
+                                  id="date-response"
+                                  label="Дата заключения"
+                                  format="dd/MM/yyyy"
+                                  variant="inline"
+                                  inputVariant="outlined"
+                                  maxDate={new Date()}
+                                  KeyboardButtonProps={{
+                                    "aria-label": "change date",
+                                  }}
+                                />
                               )}
                             />
-                          </Grid>
+                          </MuiPickersUtilsProvider>
                         </Grid>
-                      </React.Fragment>
-                    
+
+                        <Grid item md={8} sm={8} xs={12}>
+                          <Controller
+                            name="clinicalInterpretation"
+                            control={control}
+                            defaultValue={""}
+                            rules={{
+                              required: "Обязательное поле",
+                            }}
+                            render={({ field }) => (
+                              <TextField
+                                {...field}
+                                fullWidth
+                                select
+                                name="clinicalInterpretation"
+                                label="Клиническая интерпретация"
+                                id="demo-simple-select-outlined"
+                                // value={clinicalInterpretation}
+                                defaultValue={""}
+                                variant="outlined"
+                                error={
+                                  errors.clinicalInterpretation ? true : false
+                                }
+                                helperText={
+                                  errors?.clinicalInterpretation &&
+                                  errors.clinicalInterpretation.message
+                                }
+
+                                // onChange={(event) => setclinicalInterpretation(event.target.value)}
+                              >
+                                <MenuItem value={"ALK-Positive"}>
+                                  ALK Позитивный
+                                </MenuItem>
+                                <MenuItem value={"ALK-Negative"}>
+                                  ALK Негативный
+                                </MenuItem>
+                              </TextField>
+                            )}
+                          />
+                        </Grid>
+                      </Grid>
+                    </React.Fragment>
                   ) : (
                     <Box pt={2}>
                       <Alert variant="filled" severity="info">
@@ -932,7 +933,9 @@ function UpdateForm({ history, match }) {
             </CardContent>
             <Box pl={2} pr={2}>
               {successUpdate ? (
-                <Alert variant="filled" severity="success">Обновление успешно!</Alert>
+                <Alert variant="filled" severity="success">
+                  Обновление успешно!
+                </Alert>
               ) : (
                 errorUpdate && <Alert severity="error">{errorUpdate}</Alert>
               )}
@@ -944,44 +947,8 @@ function UpdateForm({ history, match }) {
 
               <Grid item>
                 <DeleteButtonChoice />
-                <div>
-                  <Dialog
-                    open={openDeleteAlert}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                  >
-                    <DialogTitle
-                      className={classes.alertTitle}
-                      id="alert-dialog-title"
-                    >
-                      Предупреждение
-                    </DialogTitle>
-                    <DialogContent>
-                      <DialogContentText id="alert-dialog-description">
-                        Данное оповещение предназначено для защиты от случайного
-                        удаления объекта. Вы уверены что хотите удалить данный
-                        кейс?
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button
-                        variant="outlined"
-                        onClick={handleCloseDeleteAlert}
-                        color="primary"
-                      >
-                        Не согласен
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        onClick={deleteCase}
-                        color="primary"
-                        autoFocus
-                      >
-                        Согласен
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
-                </div>
+                <DialogDelete instance={instance} openDeleteDialog={openDeleteDialog} handleCloseDeleteDialog={handleCloseDeleteDialog}  />
+                
               </Grid>
             </Grid>
           </Card>
