@@ -1,6 +1,6 @@
 import axios from "axios"
 
-
+// Imports
 import {
     USER_DELETE_FAIL, USER_DELETE_REQUEST,
     USER_DELETE_SUCCESS, USER_DETAILS_FAIL, USER_DETAILS_REQUEST,
