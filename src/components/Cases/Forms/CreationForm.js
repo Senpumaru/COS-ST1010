@@ -30,6 +30,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { createCase } from "../../../actions/Cases/CaseActions";
 import Loader from "../../../components/Loader";
 
+const SERVER_URL = process.env.REACT_APP_API_SERVER;
+
 const INSTITUTION_CHOICES = [
   {
     value: 328112,
@@ -127,8 +129,8 @@ function CreationForm() {
   // Data Fetching
   useEffect(async () => {
     const fetchData = async () => {
-      const pathologists = await axios(`/api/ST1010/pathologists`);
-      const consultants = await axios(`/api/ST1010/consultants`);
+      const pathologists = await axios(SERVER_URL + `api/ST1010/pathologists`);
+      const consultants = await axios(SERVER_URL + `api/ST1010/consultants`);
       setPathologistServerList(pathologists.data.map(function (item) {return item.user}));
       setConsultantServerList(consultants.data.map(function (item) {return item.user}));
       

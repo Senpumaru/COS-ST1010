@@ -30,6 +30,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import Loader from "../../components/Loader";
 import DialogReview from "../../components/Dialogs/DialogReview";
 
+const SERVER_URL = process.env.REACT_APP_API_SERVER;
+
 const useStyles = makeStyles({
   screenTitle: {
     fontSize: 16,
@@ -186,7 +188,7 @@ function CaseReview({ history, match }) {
 
     try {
       await axios
-        .put(`/api/ST1010/cases/${instance.uuid}/review/`, instance, config)
+        .put(SERVER_URL + `api/ST1010/cases/${instance.uuid}/review/`, instance, config)
         .then(function (response) {
           setReviewSuccess(true);
           dispatch(caseDetailsAction(match.params.id));

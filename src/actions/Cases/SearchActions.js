@@ -9,6 +9,8 @@ import {
     CASE_SEARCH_FILTER_INSTITUTION,
 } from '../../constants/Cases/SearchConstants'
 
+const SERVER_URL = process.env.REACT_APP_API_SERVER;
+
 export const setSearchPage = (page) => async (dispatch) => {
     dispatch(
         {

@@ -34,6 +34,8 @@ import {
 import DialogDelete from "../../Dialogs/DialogDelete";
 import Loader from "../../Loader";
 
+const SERVER_URL = process.env.REACT_APP_API_SERVER;
+
 const useStyles = makeStyles({
   cardTitle: {
     fontSize: 14,
@@ -168,8 +170,8 @@ function UpdateForm({ history, match }) {
 
   useEffect(async () => {
     const fetchData = async () => {
-      const pathologists = await axios(`/api/ST1010/pathologists`);
-      const consultants = await axios(`/api/ST1010/consultants`);
+      const pathologists = await axios(SERVER_URL + `api/ST1010/pathologists`);
+      const consultants = await axios(SERVER_URL + `api/ST1010/consultants`);
 
       setConsultants(
         consultants.data.map(function (item) {

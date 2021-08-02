@@ -38,7 +38,7 @@ export const login = (email, password, remember) => async (dispatch) => {
 
         // Get USER information
         const { data } = await axios.post(
-            SERVER_URL + 'api/account/login/',
+            SERVER_URL + `api/account/login/`,
             { 'email': email, 'password': password },
             config
         )
@@ -97,7 +97,7 @@ export const registration = (registrationData) => async (dispatch) => {
         axios.defaults.withCredentials = true
 
         const { data } = await axios.post(
-            SERVER_URL + 'api/account/register/',
+            SERVER_URL + `api/account/register/`,
             {
                 "firstName": registrationData["firstName"],
                 "lastName": registrationData["lastName"],
@@ -146,7 +146,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
         }
 
         // ID is specified in API URL
-        const { data } = await axios.get(`/api/account/${id}/`, config)
+        const { data } = await axios.get(SERVER_URL + `api/account/${id}/`, config)
         
 
         dispatch({
@@ -184,7 +184,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         }
 
         const { data } = await axios.put(
-            `/api/account/profile/update/`,
+            SERVER_URL + `api/account/profile/update/`,
             user,
             config
         )
@@ -230,7 +230,7 @@ export const listUsers = () => async (dispatch, getState) => {
         }
 
         const { data } = await axios.get(
-            `/api/users/`,
+            SERVER_URL + `api/users/`,
             config
         )
 
@@ -267,7 +267,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
         }
 
         const { data } = await axios.delete(
-            `/api/users/delete/${id}/`,
+            SERVER_URL + `api/users/delete/${id}/`,
             config
         )
 
@@ -304,7 +304,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
         }
 
         const { data } = await axios.put(
-            `/api/users/update/${user._id}/`,
+            SERVER_URL + `api/users/update/${user._id}/`,
             user,
             config
         )
