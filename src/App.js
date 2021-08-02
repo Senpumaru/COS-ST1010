@@ -16,7 +16,7 @@ import CaseBoard from './screens/Cases/CaseBoard';
 import CaseArchive from './screens/Cases/CaseArchive';
 import CaseReview from './screens/Cases/CaseReview';
 
-
+const SERVER_URL = process.env.REACT_APP_API_SERVER;
 
 /*** Material UI Styles Override ***/
 const useStyles = makeStyles(theme => ({

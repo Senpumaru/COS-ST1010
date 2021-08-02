@@ -22,6 +22,7 @@ import {
     USER_UPDATE_SUCCESS
 } from '../../constants/Accounts/UserConstants'
 
+const SERVER_URL = process.env.REACT_APP_API_SERVER;
 
 export const login = (email, password, remember) => async (dispatch) => {
     try {
@@ -37,14 +38,14 @@ export const login = (email, password, remember) => async (dispatch) => {
 
         // Get USER information
         const { data } = await axios.post(
-            '/api/account/login/',
+            SERVER_URL + 'api/account/login/',
             { 'email': email, 'password': password },
             config
         )
 
         // Get USER PERMISSION
         const permissions = await axios.get(
-            `api/ST1010/permissions/${data.id}`,
+            SERVER_URL + `api/ST1010/permissions/${data.id}`,
             config
         )
 
@@ -96,7 +97,7 @@ export const registration = (registrationData) => async (dispatch) => {
         axios.defaults.withCredentials = true
 
         const { data } = await axios.post(
-            '/api/account/register/',
+            SERVER_URL + 'api/account/register/',
             {
                 "firstName": registrationData["firstName"],
                 "lastName": registrationData["lastName"],
