@@ -81,8 +81,6 @@ export default function LoginScreen({ location, history }) {
     setRemember(event.target.checked);
   };
 
-  console.log(process.env.REACT_APP_API_SERVER);
-
   return (
     <Container component="main" maxWidth="xs">
       {error && <Message severity="error">{error}</Message>}
