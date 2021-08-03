@@ -81,19 +81,18 @@ export default function LoginScreen({ location, history }) {
     setRemember(event.target.checked);
   };
 
+  console.log(process.env.REACT_APP_API_SERVER);
+
   return (
     <Container component="main" maxWidth="xs">
       {error && <Message severity="error">{error}</Message>}
 
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <h1>Test: {process.env.REACT_APP_DEBUG}</h1>
-          <h1>Test: {process.env.REACT_APP_HOST_IP_ADDRESS}</h1>
-          <h1>Test: {process.env.REACT_APP_NAME}</h1>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Вход в  ИГХ: ALK
+          Вход в приложение ИГХ: ALK
         </Typography>
         <form className={classes.form} onSubmit={submitHandler}>
           <TextField
