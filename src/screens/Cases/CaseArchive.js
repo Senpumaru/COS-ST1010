@@ -79,7 +79,7 @@ function CaseArchive({ history, match }) {
                     className={classes.icons}
                     onClick={() =>
                       window.open(
-                        `http://127.0.0.1:8000/api/ST1010/cases/${parameter.uuid}/pdf/`
+                        SERVER_URL + `api/ST1010/cases/${parameter.uuid}/pdf/`
                       )
                     }
                   >

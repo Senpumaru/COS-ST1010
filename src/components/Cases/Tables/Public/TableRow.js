@@ -39,6 +39,9 @@ import Extension from "./Row/Extension";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import FindInPageIcon from "@material-ui/icons/FindInPage";
 import RateReviewIcon from "@material-ui/icons/RateReview";
+
+const SERVER_URL = process.env.REACT_APP_API_SERVER;
+
 /*** Material UI Styles ***/
 const useRowStyles = makeStyles({
   tableRow: {
@@ -222,7 +225,7 @@ function RowExpansion(props) {
 
   // PDF Report
   const handleCasePDF = (event) => {
-    window.open(`http://127.0.0.1:8000/api/ST1010/cases/${row.uuid}/pdf/`);
+    window.open(SERVER_URL + `api/ST1010/cases/${row.uuid}/pdf/`);
   };
 
   return (
