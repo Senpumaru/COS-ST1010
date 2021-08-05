@@ -187,7 +187,7 @@ function CreationForm() {
             justify={"flex-start"}
           >
             <Grid container item xs={12} spacing={1}>
-              <Grid item md={4} sm={4} xs={12}>
+              <Grid item md={4} sm={6} xs={12}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
                   <Controller
                     name="dateDispatch"
@@ -215,7 +215,7 @@ function CreationForm() {
                   />
                 </MuiPickersUtilsProvider>
               </Grid>
-              <Grid item md={4} sm={4} xs={12}>
+              <Grid item md={4} sm={6} xs={12}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
                   <Controller
                     name="dateAcquisition"
