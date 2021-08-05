@@ -314,7 +314,7 @@ export const caseDeleteAction = (id) => async (dispatch, getState) => {
 export const listCases = (
   page = 1,
   pageSize = 10,
-  sortColumn = "date_of_registration",
+  sortColumn = "date_of_acquisition",
   filterDateRegisterGTE = null,
   filterDateRegisterLTE = null,
   filterInstitution = ""
@@ -334,11 +334,11 @@ export const listCases = (
       const sortColumnVar = `&ordering=${sortColumn}`;
       var filterDateRegisterGTEVar = ""
       if (filterDateRegisterGTE != null) {
-        filterDateRegisterGTEVar = `&date_of_registration_gte=${filterDateRegisterGTE}`;
+        filterDateRegisterGTEVar = `&date_of_acquisition_gte=${filterDateRegisterGTE}`;
       } else {
         filterDateRegisterGTEVar = ""
       }
-      const filterDateRegisterLTEVar = `&date_of_registration_lte=${filterDateRegisterLTE}`;
+      const filterDateRegisterLTEVar = `&date_of_acquisition_lte=${filterDateRegisterLTE}`;
       const filterInstitutionVar = `&institution_code=${filterInstitution}`;
 
       const url = baseUrl.concat(

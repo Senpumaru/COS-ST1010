@@ -240,7 +240,7 @@ function RowExpansion(props) {
         </TableCell>
 
         <TableCell className={classes.tableCell} align="left">
-          {row.date_of_registration}
+          {row.date_of_acquisition}
         </TableCell>
         <TableCell className={classes.tableCell} align="left">
           {row.case_code}
@@ -376,7 +376,7 @@ function RowExpansion(props) {
                       клинициста:
                       <strong>
                         {" "}
-                        {row.case_creator["last_name"] +
+                        {row.case_creator && row.case_creator["last_name"] +
                           " " +
                           row.case_creator["first_name"]}
                       </strong>

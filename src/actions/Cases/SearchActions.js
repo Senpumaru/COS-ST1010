@@ -3,8 +3,8 @@ import {
     CASE_SEARCH_PAGE,
     CASE_SEARCH_PAGE_SIZE,
     CASE_SEARCH_SORT,
-    CASE_SEARCH_FILTER_DATE_REGISTER_GTE,
-    CASE_SEARCH_FILTER_DATE_REGISTER_LTE,
+    CASE_SEARCH_FILTER_DATE_REGISTER_GTE as CASE_SEARCH_FILTER_DATE_ACQUISITION_GTE,
+    CASE_SEARCH_FILTER_DATE_REGISTER_LTE as CASE_SEARCH_FILTER_DATE_ACQUISITION_LTE,
     CASE_SEARCH_FILTER_PERSONAL_NUMBER,
     CASE_SEARCH_FILTER_INSTITUTION,
 } from '../../constants/Cases/SearchConstants'
@@ -38,20 +38,20 @@ export const setSearchSort = (sortColumn) => async (dispatch) => {
     )
 }
 
-export const setSearchFilterDateRegisterGTE = (keyword) => async (dispatch) => {
+export const setSearchFilterDateAcquisitionGTE = (keyword) => async (dispatch) => {
     dispatch(
         {
-            type: CASE_SEARCH_FILTER_DATE_REGISTER_GTE,
+            type: CASE_SEARCH_FILTER_DATE_ACQUISITION_GTE,
             payload: keyword
         }
     )
 
 }
 
-export const setSearchFilterDateRegisterLTE = (keyword) => async (dispatch) => {
+export const setSearchFilterDateAcquisitionLTE = (keyword) => async (dispatch) => {
     dispatch(
         {
-            type: CASE_SEARCH_FILTER_DATE_REGISTER_LTE,
+            type: CASE_SEARCH_FILTER_DATE_ACQUISITION_LTE,
             payload: keyword
         }
     )

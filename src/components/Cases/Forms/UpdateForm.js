@@ -65,6 +65,10 @@ const INSTITUTION_CHOICES = [
     label: "УЗ «Витебский областной клинический онкологический диспансер»",
   },
   {
+    value: 328045,
+    label: "УЗ «Гродненская университетская клиника»",
+  },
+  {
     value: 328043,
     label: "УЗ «Могилёвский областной онкологический диспансер»",
   },
@@ -193,7 +197,7 @@ function UpdateForm({ history, match }) {
       dispatch(caseDetailsAction(match.params.id));
     } else {
       // Registration Data
-      setValue("dateRegistration", instance.date_of_registration);
+      setValue("dateAcquisition", instance.date_of_acquisition);
       setValue("institutionCode", instance.institution_code);
       setOrderNumber(instance.order_number);
       setBlockCodeList(blockCodes);
@@ -269,7 +273,6 @@ function UpdateForm({ history, match }) {
   const handleCloseDeleteDialog = () => {
     setOpenDeleteAlert(false);
   };
-  
 
   /* Form submission */
   const defaultValues = {
@@ -419,7 +422,7 @@ function UpdateForm({ history, match }) {
                             {...rest}
                             fullWidth
                             id="date-registration"
-                            label="Дата регистрации"
+                            label="Дата получения"
                             format="dd/MM/yyyy"
                             maxDate={new Date()}
                             variant="inline"
@@ -949,8 +952,11 @@ function UpdateForm({ history, match }) {
 
               <Grid item>
                 <DeleteButtonChoice />
-                <DialogDelete instance={instance} openDeleteDialog={openDeleteDialog} handleCloseDeleteDialog={handleCloseDeleteDialog}  />
-                
+                <DialogDelete
+                  instance={instance}
+                  openDeleteDialog={openDeleteDialog}
+                  handleCloseDeleteDialog={handleCloseDeleteDialog}
+                />
               </Grid>
             </Grid>
           </Card>

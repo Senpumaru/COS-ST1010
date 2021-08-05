@@ -69,7 +69,7 @@ function CaseTable() {
                 <TableRow>
                   <TableCell />
                   <TableCell padding="none" align="left">
-                    Дата регистрации
+                    Дата получения
                   </TableCell>
                   <TableCell padding="none" align="left">
                     Код

@@ -15,7 +15,7 @@ const currentDate = new Date();
 const initialStateSearch = {
   page: 1,
   pageSize: 10,
-  sortColumn: "-date_of_registration",
+  sortColumn: "-date_of_acquisition",
 
   filters: {
     "dateRegisterGTE": null,

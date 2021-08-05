@@ -25,8 +25,8 @@ import {
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setSearchFilterDateRegisterGTE,
-  setSearchFilterDateRegisterLTE,
+  setSearchFilterDateAcquisitionGTE,
+  setSearchFilterDateAcquisitionLTE,
   setSearchFilterinstitution,
   setSearchPage,
   setSearchPageSize,
@@ -75,6 +75,10 @@ const INSTITUTION_CHOICES = [
     label: "УЗ «Витебский областной клинический онкологический диспансер»",
   },
   {
+    value: 328045,
+    label: "УЗ «Гродненская университетская клиника»",
+  },
+  {
     value: 328043,
     label: "УЗ «Могилёвский областной онкологический диспансер»",
   },
@@ -118,10 +122,10 @@ function TableFilters() {
 
   // Date Picker
   const handleFilterDateRegisterGTE = (event) => {
-    dispatch(setSearchFilterDateRegisterGTE(event));
+    dispatch(setSearchFilterDateAcquisitionGTE(event));
   };
   const handleFilterDateRegisterLTE = (event) => {
-    dispatch(setSearchFilterDateRegisterLTE(event));
+    dispatch(setSearchFilterDateAcquisitionLTE(event));
   };
 
   const handleFilterinstitution = (event) => {
@@ -159,7 +163,7 @@ function TableFilters() {
                     autoOk
                     variant="inline"
                     inputVariant="outlined"
-                    label="Дата регистрации (от)"
+                    label="Дата получения (от)"
                     maxDate={filters.dateRegisterLTE}
                     maxDateMessage={"Неправильно выбрана дата"}
                     value={filters.dateRegisterGTE}
@@ -174,7 +178,7 @@ function TableFilters() {
                     autoOk
                     variant="inline"
                     inputVariant="outlined"
-                    label="Дата регистрации (до)"
+                    label="Дата получения (до)"
                     maxDate={new Date()}
                     value={filters.dateRegisterLTE}
                     onChange={handleFilterDateRegisterLTE}
@@ -249,10 +253,10 @@ function TableFilters() {
               onChange={handleChangeSort}
               label="Сортировка"
             >
-              <MenuItem value="date_of_registration">
+              <MenuItem value="date_of_acquisition">
                 <em>По умолчанию</em>
               </MenuItem>
-              <MenuItem value={"date_of_registration"}>
+              <MenuItem value={"date_of_acquisition"}>
                 <div
                   style={{
                     display: "flex",
@@ -260,11 +264,11 @@ function TableFilters() {
                     flexWrap: "wrap",
                   }}
                 >
-                  Дата регистрации
+                  Дата получения
                   <ArrowUpwardIcon fontSize="small" />
                 </div>
               </MenuItem>
-              <MenuItem value={"-date_of_registration"}>
+              <MenuItem value={"-date_of_acquisition"}>
                 <div
                   style={{
                     display: "flex",
@@ -272,7 +276,7 @@ function TableFilters() {
                     flexWrap: "wrap",
                   }}
                 >
-                  Дата регистрации
+                  Дата получения
                   <ArrowDownwardIcon fontSize="small" />
                 </div>
               </MenuItem>

@@ -112,7 +112,7 @@ function Extension(props) {
       <Grid container spacing={1}>
         <Grid item md={4} xs={12}>
           Создатель:{" "}
-          {row.case_creator["last_name"] + " " + row.case_creator["first_name"]}
+          {row.case_creator && row.case_creator["last_name"] + " " + row.case_creator["first_name"]}
         </Grid>
 
         {row?.case_assistant ? (
