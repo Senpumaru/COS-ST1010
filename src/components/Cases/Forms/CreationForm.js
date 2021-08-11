@@ -9,18 +9,15 @@ import {
   Grid,
   IconButton,
   makeStyles,
-  MenuItem,
-  Snackbar,
-  TextField,
-  Typography,
+  MenuItem, TextField,
+  Typography
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import Alert from "@material-ui/lab/Alert";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import {
-  DatePicker,
   KeyboardDatePicker,
-  MuiPickersUtilsProvider,
+  MuiPickersUtilsProvider
 } from "@material-ui/pickers";
 import axios from "axios";
 import ruLocale from "date-fns/locale/ru";

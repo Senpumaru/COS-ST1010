@@ -1,14 +1,5 @@
 import DateFnsUtils from "@date-io/date-fns";
-import {
-  Box,
-  Fade,
-  Collapse,
-  FormControlLabel,
-  Grid,
-  MenuItem,
-  Switch,
-  Badge,
-} from "@material-ui/core";
+import { Box, Fade, FormControlLabel, Grid, MenuItem, Switch } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -17,11 +8,8 @@ import TextField from "@material-ui/core/TextField";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import Pagination from "@material-ui/lab/Pagination";
-import {
-  DatePicker,
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import ruLocale from "date-fns/locale/ru";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -32,8 +20,6 @@ import {
   setSearchPageSize,
   setSearchSort,
 } from "../../../../actions/Cases/SearchActions";
-import EditIcon from "@material-ui/icons/Edit";
-import ruLocale from "date-fns/locale/ru";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,9 +87,7 @@ function TableFilters() {
   const dispatch = useDispatch();
 
   /* Get state using "Selector" from "State" */
-  const searchParameters = useSelector(
-    (state) => state.ST1010["searchParameters"]
-  );
+  const searchParameters = useSelector((state) => state.ST1010["searchParameters"]);
   const { page, pageSize, sortColumn, filters } = searchParameters;
 
   const caseList = useSelector((state) => state.ST1010["caseList"]);
@@ -151,12 +135,7 @@ function TableFilters() {
       <Box pb={2}>
         <div hidden={checkFilters === false}>
           <Fade in={checkFilters === true} timeout={500}>
-            <Grid
-              justify="flex-start"
-              alignItems="flex-start"
-              container
-              spacing={1}
-            >
+            <Grid justify="flex-start" alignItems="flex-start" container spacing={1}>
               <Grid item md={3} sm={4} xs={6}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
                   <DatePicker
@@ -243,9 +222,7 @@ function TableFilters() {
 
         <Grid item md={6} sm={6} xs={6}>
           <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-outlined-label">
-              Сортировка
-            </InputLabel>
+            <InputLabel id="case-sorter-id">Сортировка</InputLabel>
             <Select
               labelId="Case-Sorter"
               id="Case-Sorter"

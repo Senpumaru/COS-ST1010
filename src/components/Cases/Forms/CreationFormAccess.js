@@ -10,6 +10,11 @@ import CreationForm from "./CreationForm";
 
 /*** Material UI Styles ***/
 const useStyles = makeStyles({
+  fabStyle: {
+    height: 25,
+    width: 80,
+    verticalAlign: "middle",
+  },
   icons: {
     padding: 3,
   },
@@ -61,7 +66,7 @@ function CreationFormAccess() {
           }}
         >
           <Tooltip title="Создать новый кейс">
-            <Fab onClick={handleOpenForm} variant="extended">
+            <Fab className={classes.fabStyle} onClick={handleOpenForm} variant="extended">
               Кейс
               <EditIcon className={classes.icons} fontSize="small" />
             </Fab>
