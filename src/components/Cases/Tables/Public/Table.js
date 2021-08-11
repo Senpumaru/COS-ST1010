@@ -1,3 +1,4 @@
+
 import { Box, Typography } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
@@ -14,10 +15,15 @@ import Loader from "../../../../components/Loader";
 import Filters from "./TableFilters";
 import RowExpansion from "./TableRow";
 
+
+
 /*** Material UI Styles ***/
 const useStyles = makeStyles((theme) => ({
   modalForm: {
     overflow: "scroll",
+  },
+  iconFontAwe:{
+    fontSize: "16px",
   },
   icons: {
     fontSize: "2px",
@@ -60,6 +66,7 @@ function CaseTable() {
   return (
     <React.Fragment>
       <Box mt={2} mb={2}>
+      
         <Filters />
 
         {cases?.results && (
@@ -69,6 +76,7 @@ function CaseTable() {
                 <TableRow>
                   <TableCell />
                   <TableCell padding="none" align="left">
+                  
                     Дата получения
                   </TableCell>
                   <TableCell padding="none" align="left">
@@ -87,6 +95,9 @@ function CaseTable() {
                     align="left"
                   >
                     Интрепретация
+                  </TableCell>
+                  <TableCell padding="none" align="left">
+                    Статус
                   </TableCell>
                   <TableCell padding="none" align="left">
                     Действия

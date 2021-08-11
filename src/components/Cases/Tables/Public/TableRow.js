@@ -1,4 +1,6 @@
-import { Grid, IconButton, TableCell, Tooltip } from "@material-ui/core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserMd, faMailBulk, faEdit, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { Grid, Icon, IconButton, TableCell, Tooltip } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Collapse from "@material-ui/core/Collapse";
 import { makeStyles } from "@material-ui/core/styles";
@@ -30,14 +32,13 @@ const useRowStyles = makeStyles({
   tableCell: {
     padding: 2,
   },
-  tableButton: {
-    padding: 0,
-    color: "#424242",
+  tableIcon: {
+    padding: 1,
+    fontSize: "1.4rem",
   },
-  icons: {
-    padding: 2,
-    fontSize: "2rem",
-    color: "#424242",
+  tableButton: {
+    padding: 1,
+    fontSize: "1.4rem",
   },
 });
 
@@ -154,129 +155,146 @@ function RowExpansion(props) {
         <TableCell className={classes.tableCell} align="left">
           {row.clinical_interpretation}
         </TableCell>
+
         {row ? (
-          <TableCell className={classes.tableCell} style={{ width: "20%" }} align="left">
-            <Grid container direction="row" justify="flex-end" alignItems="flex-end" spacing={0}>
-            <Grid item>
-                {row.case_editor === null && (
-                  <Tooltip title="Не указан патолог" aria-label="editor">
-                    <HelpOutlineIcon className={classes.tableButton} />
-                  </Tooltip>
-                )}
-              </Grid>
-              <Grid item>
-                {row?.case_approvals.length === 0 && (
-                  <Tooltip title="Нет консультантов" aria-label="consultants">
-                    <HelpOutlineIcon className={classes.tableButton} />
-                  </Tooltip>
-                )}
-              </Grid>
-
-              <Grid item>
-                {row.case_approvals.map((a) => a.consultant).includes(userInfo.id) &&
-                  row.clinical_interpretation != null &&
-                  row.version_state === "In-progress" && (
-                    <IconButton className={classes.tableButton} onClick={() => handleOpenApproveDialogue()}>
-                      <Tooltip title="Утверждение" aria-label="transfer">
-                        <PriorityHighIcon className={classes.icons} />
-                      </Tooltip>
-                    </IconButton>
+          <React.Fragment>
+            <TableCell className={classes.tableCell} style={{ width: "8%" }} align="center">
+              <Grid container direction="row" justify="flex-end" alignItems="flex-end" spacing={0}>
+                <Grid item>
+                  {row.case_editor === null && (
+                    <Tooltip title="Не указан патолог" aria-label="editor">
+                      <Icon className={classes.tableIcon}>
+                        <FontAwesomeIcon icon={faUserMd} />
+                      </Icon>
+                    </Tooltip>
                   )}
-              </Grid>
-
-              {
-                // Objective: CASE Approval
-                // Rule: CASE APPROVALS exist
-                row.case_approvals && (
-                  <DialogApproval
-                    openApprovalDialogue={openApprovalDialogue}
-                    setOpenApprovalDialogue={setOpenApprovalDialogue}
-                    approvals={row.case_approvals}
-                  />
-                )
-              }
-
-              <Grid item>
-                {userInfo["credentials"]["registrar"] && row.case_creator ? (
-                  row.case_creator["ST1010_Permission"]["clinician"] &&
-                  row?.case_assistant === null && (
-                    <IconButton className={classes.tableButton} onClick={handleOpenTransferDialog}>
-                      <Tooltip title="Трансфер кейса" aria-label="transfer">
-                        <SyncIcon className={classes.icons} />
-                      </Tooltip>
-                    </IconButton>
-                  )
-                ) : (
-                  <div></div>
-                )}
-              </Grid>
-
-              {
-                // Objective: CASE Transfer
-                // Rule: CASE CREATOR exists
-                row.case_creator && (
-                  <DialogTransfer
-                    openTransferDialog={openTransferDialog}
-                    setOpenTransferDialog={setOpenTransferDialog}
-                    uuid={row["uuid"]}
-                    CaseCreatorLN={row.case_creator["last_name"]}
-                    CaseCreatorFN={row.case_creator["first_name"]}
-                  />
-                )
-              }
-
-              <Grid item>
-                {editingAction && (
-                  <IconButton className={classes.tableButton} component={Link} to={`/ST1010/Case/${row.uuid}`}>
-                    <Tooltip title="Обновить" aria-label="edit">
-                      <EditIcon className={classes.icons} />
+                </Grid>
+                <Grid item>
+                  {row?.case_approvals.length === 0 && (
+                    <Tooltip title="Нет консультантов" aria-label="consultants">
+                      <Icon className={classes.tableIcon}>
+                        <FontAwesomeIcon icon={faUsers} />
+                      </Icon>
                     </Tooltip>
-                  </IconButton>
-                )}
+                  )}
+                </Grid>
               </Grid>
-              <Grid item>
-                {row.clinical_interpretation != null && row.case_consultants.length > 0 && (
-                  <IconButton className={classes.tableButton} component={Link} to={`/ST1010/Case/Review/${row.uuid}`}>
-                    <Tooltip title="Обзор кейса" aria-label="edit">
-                      <ListAltIcon className={classes.icons} />
-                    </Tooltip>
-                  </IconButton>
-                )}
-              </Grid>
+            </TableCell>
 
-              {
-                // Objective: CASE Addendum
-                // Rule #1: CASE EDITOR exists
-                // Rule #2: CASE Verified
-                row.version_state === "Verified" && editorExists && (
-                  <Grid item>
-                    <IconButton className={classes.tableButton} onClick={handleOpenAddendumDialog}>
-                      <Tooltip title="Поправка" aria-label="modify">
-                        <RateReviewIcon className={classes.icons} />
+            <TableCell className={classes.tableCell} style={{ width: "10%" }} align="center">
+              <Grid container direction="row" justify="flex-end" alignItems="flex-end" spacing={0}>
+                <Grid item>
+                  {row.case_approvals.map((a) => a.consultant).includes(userInfo.id) &&
+                    row.clinical_interpretation != null &&
+                    row.version_state === "In-progress" && (
+                      <Tooltip title="Утверждение" aria-label="transfer">
+                        <IconButton className={classes.tableButton} onClick={() => handleOpenApproveDialogue()}>
+                          <PriorityHighIcon className={classes.icons} />
+                        </IconButton>
                       </Tooltip>
-                    </IconButton>
-                    <DialogAddendum
-                      openAddendumDialog={openAddendumDialog}
-                      setOpenAddendumDialog={setOpenAddendumDialog}
-                      // Data
-                      uuid={row.uuid}
+                    )}
+                </Grid>
+
+                {
+                  // Objective: CASE Approval
+                  // Rule: CASE APPROVALS exist
+                  row.case_approvals && (
+                    <DialogApproval
+                      openApprovalDialogue={openApprovalDialogue}
+                      setOpenApprovalDialogue={setOpenApprovalDialogue}
+                      approvals={row.case_approvals}
                     />
-                  </Grid>
-                )
-              }
-              <Grid item>
-                <IconButton
-                  className={classes.tableButton}
-                  component={Link}
-                  to={`/ST1010/Case/${row.institution_code}/${row.order_number}/Archive/`}
-                >
+                  )
+                }
+
+                {
+                  // Objective: CASE Addendum
+                  // Rule #1: CASE EDITOR exists
+                  // Rule #2: CASE Verified
+                  row.version_state === "Verified" && editorExists && (
+                    <Grid item>
+                      <Tooltip title="Поправка" aria-label="modify">
+                        <IconButton className={classes.tableButton} onClick={handleOpenAddendumDialog}>
+                          <RateReviewIcon className={classes.icons} />
+                        </IconButton>
+                      </Tooltip>
+
+                      <DialogAddendum
+                        openAddendumDialog={openAddendumDialog}
+                        setOpenAddendumDialog={setOpenAddendumDialog}
+                        // Data
+                        uuid={row.uuid}
+                      />
+                    </Grid>
+                  )
+                }
+
+                <Grid item>
+                  {userInfo["credentials"]["registrar"] && row.case_creator ? (
+                    row.case_creator["ST1010_Permission"]["clinician"] &&
+                    row?.case_assistant === null && (
+                      <Tooltip title="Трансфер кейса" aria-label="transfer">
+                        <IconButton className={classes.tableButton} onClick={handleOpenTransferDialog}>
+                          <SyncIcon className={classes.icons} />
+                        </IconButton>
+                      </Tooltip>
+                    )
+                  ) : (
+                    <div></div>
+                  )}
+                </Grid>
+
+                {
+                  // Objective: CASE Transfer
+                  // Rule: CASE CREATOR exists
+                  row.case_creator && (
+                    <DialogTransfer
+                      openTransferDialog={openTransferDialog}
+                      setOpenTransferDialog={setOpenTransferDialog}
+                      uuid={row["uuid"]}
+                      CaseCreatorLN={row.case_creator["last_name"]}
+                      CaseCreatorFN={row.case_creator["first_name"]}
+                    />
+                  )
+                }
+
+                <Grid item>
+                  {editingAction && (
+                    <Tooltip title="Обновить" aria-label="edit">
+                      <IconButton className={classes.tableButton} component={Link} to={`/ST1010/Case/${row.uuid}`}>
+                        <FontAwesomeIcon className={classes.icons} icon={faEdit} />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </Grid>
+                <Grid item>
+                  {row.clinical_interpretation != null && row.case_consultants.length > 0 && (
+                    <Tooltip title="Обзор кейса" aria-label="edit">
+                      <IconButton
+                        className={classes.tableButton}
+                        component={Link}
+                        to={`/ST1010/Case/Review/${row.uuid}`}
+                      >
+                        <ListAltIcon className={classes.icons} />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </Grid>
+
+                <Grid item>
                   <Tooltip title="Архивы" aria-label="edit">
-                    <FindInPageIcon className={classes.icons} />
+                    <IconButton
+                      className={classes.tableButton}
+                      component={Link}
+                      to={`/ST1010/Case/${row.institution_code}/${row.order_number}/Archive/`}
+                    >
+                      <FontAwesomeIcon className={classes.icons} icon={faMailBulk} />
+                    </IconButton>
                   </Tooltip>
-                </IconButton>
+                </Grid>
               </Grid>
-            </Grid>
-          </TableCell>
+            </TableCell>
+          </React.Fragment>
         ) : (
           <TableCell></TableCell>
         )}
