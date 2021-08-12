@@ -159,7 +159,7 @@ function RowExpansion(props) {
         {row ? (
           <React.Fragment>
             <TableCell className={classes.tableCell} style={{ width: "8%" }} align="center">
-              <Grid container direction="row" justify="flex-end" alignItems="flex-end" spacing={0}>
+              <Grid container direction="row" justify="center" alignItems="center" spacing={0}>
                 <Grid item>
                   {row.case_editor === null && (
                     <Tooltip title="Не указан патолог" aria-label="editor">
@@ -181,8 +181,8 @@ function RowExpansion(props) {
               </Grid>
             </TableCell>
 
-            <TableCell className={classes.tableCell} style={{ width: "10%" }} align="center">
-              <Grid container direction="row" justify="flex-end" alignItems="flex-end" spacing={0}>
+            <TableCell className={classes.tableCell} style={{ width: "12%" }} align="center">
+              <Grid container direction="row" justify="center" alignItems="center" spacing={0}>
                 <Grid item>
                   {row.case_approvals.map((a) => a.consultant).includes(userInfo.id) &&
                     row.clinical_interpretation != null &&

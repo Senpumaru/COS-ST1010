@@ -1,23 +1,14 @@
 import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Dialog,
+  Button, Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
-  Grid,
-  makeStyles,
-  Typography,
+  DialogTitle, makeStyles
 } from "@material-ui/core";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { caseDetailsAction } from "../../actions/Cases/CaseActions";
-
-import Loader from "../../components/Loader";
 
 const useStyles = makeStyles({
   dialogHeader: {

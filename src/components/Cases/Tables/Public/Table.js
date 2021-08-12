@@ -1,4 +1,3 @@
-
 import { Box, Typography } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,14 +14,12 @@ import Loader from "../../../../components/Loader";
 import Filters from "./TableFilters";
 import RowExpansion from "./TableRow";
 
-
-
 /*** Material UI Styles ***/
 const useStyles = makeStyles((theme) => ({
   modalForm: {
     overflow: "scroll",
   },
-  iconFontAwe:{
+  iconFontAwe: {
     fontSize: "16px",
   },
   icons: {
@@ -50,23 +47,10 @@ function CaseTable() {
 
   const caseList = useSelector((state) => state.ST1010["caseList"]);
   const { error, loading, cases } = caseList;
-  
-
-  /*** Local States ***/
-  const [openForm, setOpenForm] = useState(false);
-
-  const handleOpenForm = () => {
-    setOpenForm(true);
-  };
-
-  const handleCloseForm = () => {
-    setOpenForm(false);
-  };
 
   return (
     <React.Fragment>
       <Box mt={2} mb={2}>
-      
         <Filters />
 
         {cases?.results && (
@@ -76,7 +60,6 @@ function CaseTable() {
                 <TableRow>
                   <TableCell />
                   <TableCell padding="none" align="left">
-                  
                     Дата получения
                   </TableCell>
                   <TableCell padding="none" align="left">
@@ -96,10 +79,10 @@ function CaseTable() {
                   >
                     Интрепретация
                   </TableCell>
-                  <TableCell padding="none" align="left">
+                  <TableCell padding="none" align="center">
                     Статус
                   </TableCell>
-                  <TableCell padding="none" align="left">
+                  <TableCell padding="none" align="center">
                     Действия
                   </TableCell>
                 </TableRow>
@@ -111,9 +94,7 @@ function CaseTable() {
                 ))}
               </TableBody>
             </Table>
-            {cases.results.length === 0 && (
-              <Typography align="center">Нет данных</Typography>
-            )}
+            {cases.results.length === 0 && <Typography align="center">Нет данных</Typography>}
           </TableContainer>
         )}
       </Box>
