@@ -34,6 +34,7 @@ const useStyles = makeStyles({
   },
 });
 
+
 const SERVER_URL = process.env.REACT_APP_API_SERVER;
 
 function DialogDelivery(props) {
@@ -48,6 +49,7 @@ function DialogDelivery(props) {
     openDeliveryDialog,
     setOpenDeliveryDialog,
     setDeliverySuccess,
+    deliveryError,
     setDeliveryError,
     // Data
     uuid,
@@ -58,13 +60,15 @@ function DialogDelivery(props) {
   };
 
   /*** Local States ***/
-  const [deliveryEmail, setDeliveryEmail] = useState("vladimir.matveev@comac-medical.com");
+  const [deliveryEmail, setDeliveryEmail] = useState("hakumen737@gmail.com");
 
   const handleEmailChange = (event) => {
     setDeliveryEmail(event.target.value);
   };
+  
 
-  async function handleDelivery() {
+  function handleDelivery() {
+      
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -72,20 +76,19 @@ function DialogDelivery(props) {
       },
     };
 
-    console.log("Works");
+    const data = {};
+    data["recipientEmail"] = deliveryEmail;
+    data["editorEmail"] = userInfo.email;
 
-    // try {
-    //   await axios
-    //     .post(SERVER_URL + `api/ST1010/cases/${uuid}/delivery/`, config)
-    //     .then(function (response) {
-          setDeliverySuccess(true);
-          setOpenDeliveryDialog(false);
-          
-    //     });
-    // } catch (error) {
-    //   setDeliveryError(error.response && error.response.data.Detail ? error.response.data.Detail : error.message);
-    //   setOpenDeliveryDialog(false);
-    // }
+    try {
+      axios.post(SERVER_URL + `api/ST1010/cases/${uuid}/delivery/`, data, config).then(function (response) {
+        setDeliverySuccess(true);
+        setOpenDeliveryDialog(false);
+      });
+    } catch (error) {
+      setDeliveryError(error.response && error.response.data.Detail ? error.response.data.Detail : error.message);
+      console.log(deliveryError)
+    }
   }
 
   return (
@@ -104,11 +107,12 @@ function DialogDelivery(props) {
             Внимание!
           </Typography>
           <br />
-          Заключение будет отослано по адресу указанному ниже, измените почту для смены реципиента.
-          Ваша личная почта (профиль) будет указана для обратной связи реципиенту.
+          Заключение будет отослано по адресу указанному ниже, измените почту для смены реципиента. Ваша личная почта
+          (профиль) будет указана для обратной связи реципиенту.
         </DialogContentText>
         <TextField fullWidth value={deliveryEmail} onChange={handleEmailChange} />
       </DialogContent>
+      
       <DialogActions>
         <Button onClick={handleCloseDeliveryDialog} variant="outlined" color="primary">
           Отмена

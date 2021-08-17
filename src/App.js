@@ -1,3 +1,5 @@
+import axios from "axios"
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Toolbar from "@material-ui/core/Toolbar";
@@ -16,6 +18,11 @@ import CaseBoard from './screens/Cases/CaseBoard';
 import CaseArchive from './screens/Cases/CaseArchive';
 import CaseReview from './screens/Cases/CaseReview';
 
+// Axios CSRF security
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "XSRF-TOKEN";
+axios.defaults.withCredentials = true
+
 /*** Material UI Styles Override ***/
 const useStyles = makeStyles(theme => ({
   app: {
@@ -27,6 +34,8 @@ const useStyles = makeStyles(theme => ({
     paddingRight: theme.spacing(1)
   }
 }));
+
+
 
 function AppProtectedRoute({ application: App, component: Component, ...rest }) {
 

@@ -92,9 +92,7 @@ export const registration = (registrationData) => async (dispatch) => {
                 'Content-type': 'application/json'
             }
         }
-        // Axios CSRF security
-        axios.defaults.xsrfHeaderName = "X-CSRFToken";
-        axios.defaults.withCredentials = true
+        
 
         const { data } = await axios.post(
             SERVER_URL + `api/account/register/`,

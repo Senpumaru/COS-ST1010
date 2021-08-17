@@ -51,14 +51,22 @@ function CaseArchive({ history, match }) {
       },
     };
 
-    const response = await axios
-      .get(SERVER_URL + `api/ST1010/cases/${match.params.code}/${match.params.number}/versions/`, config)
-      .then((response) => {
-        const allCases = response.data;
+    const axiosDelivery = async () => {
+      // Try
+      try {
+        const response = await axios.get(
+          SERVER_URL + `api/ST1010/cases/${match.params.code}/${match.params.number}/versions/`,
+          config
+        );
         setLoadingArchive(false);
-        setCases(allCases);
-      })
-      .catch((error) => console.error(`Error: ${error}`));
+        setCases(response.data);
+        // Catch
+      } catch (error) {
+        error = error;
+        setDeliveryError(true)
+      }
+    };
+    axiosDelivery();
   };
 
   /** Report PDF **/
@@ -82,11 +90,11 @@ function CaseArchive({ history, match }) {
   }
 
   useEffect(async () => {
-    const reload = async () => setTimeout(() => {
+    setLoadingArchive(true);
+    setTimeout(() => {
       getCaseArchive();
     }, 2000);
-    reload();
-  }, [deliverySuccess]);
+  }, []);
 
   function Versions() {
     if (cases.length >= 1) {
@@ -132,7 +140,10 @@ function CaseArchive({ history, match }) {
                             openDeliveryDialog={openDeliveryDialog}
                             setOpenDeliveryDialog={setOpenDeliveryDialog}
                             setDeliverySuccess={setDeliverySuccess}
+                            deliveryError={deliveryError}
                             setDeliveryError={setDeliveryError}
+                            // Data
+                            uuid={parameter.uuid}
                           />
                         </React.Fragment>
                       ) : (
