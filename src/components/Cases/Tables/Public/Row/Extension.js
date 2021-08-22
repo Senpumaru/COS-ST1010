@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from "@material-ui/core";
+import { Button, Container, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
 
@@ -114,6 +114,9 @@ function Extension(props) {
               </Typography>
             </div>
           </Grid>
+        </Grid>
+        <Grid>
+          <Button>Комментарий</Button>
         </Grid>
       </Grid>
       <hr />

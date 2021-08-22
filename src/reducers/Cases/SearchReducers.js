@@ -18,15 +18,15 @@ const initialStateSearch = {
   sortColumn: "-date_of_acquisition",
 
   filters: {
-    "dateRegisterGTE": null,
-    "dateRegisterLTE": currentDate,
+    "dateAcquisitionGTE": null,
+    "dateAcquisitionLTE": currentDate,
     "personalNumber": "",
     "institution": ""
   }
 }
 
 /*** Search Page ***/
-export const searchReducerALK = (state = initialStateSearch, action) => {
+export const searchReducer = (state = initialStateSearch, action) => {
   switch (action.type) {
     case CASE_SEARCH_PAGE:
       return {
@@ -49,8 +49,8 @@ export const searchReducerALK = (state = initialStateSearch, action) => {
         ...state,
         page: 1,
         filters: {
-          "dateRegisterGTE": action.payload,
-          "dateRegisterLTE": state.filters.dateRegisterLTE,
+          "dateAcquisitionGTE": action.payload,
+          "dateAcquisitionLTE": state.filters.dateAcquisitionLTE,
 
           "institution": state.filters.institution
         }
@@ -61,8 +61,8 @@ export const searchReducerALK = (state = initialStateSearch, action) => {
         ...state,
         page: 1,
         filters: {
-          "dateRegisterGTE": state.filters.dateRegisterGTE,
-          "dateRegisterLTE": action.payload,
+          "dateAcquisitionGTE": state.filters.dateAcquisitionGTE,
+          "dateAcquisitionLTE": action.payload,
 
           "institution": state.filters.institution
         }
@@ -72,8 +72,8 @@ export const searchReducerALK = (state = initialStateSearch, action) => {
         ...state,
         page: 1,
         filters: {
-          "dateRegisterGTE": state.filters.dateRegisterGTE,
-          "dateRegisterLTE": state.filters.dateRegisterLTE,
+          "dateAcquisitionGTE": state.filters.dateAcquisitionGTE,
+          "dateAcquisitionLTE": state.filters.dateAcquisitionLTE,
 
           "institution": state.filters.institution
         }
@@ -83,8 +83,8 @@ export const searchReducerALK = (state = initialStateSearch, action) => {
         ...state,
         page: 1,
         filters: {
-          "dateRegisterGTE": state.filters.dateRegisterGTE,
-          "dateRegisterLTE": state.filters.dateRegisterLTE,
+          "dateAcquisitionGTE": state.filters.dateAcquisitionGTE,
+          "dateAcquisitionLTE": state.filters.dateAcquisitionLTE,
 
           "institution": action.payload
         }

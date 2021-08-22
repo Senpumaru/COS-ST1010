@@ -277,8 +277,8 @@ export const listCases = (
   page = 1,
   pageSize = 10,
   sortColumn = "date_of_acquisition",
-  filterDateRegisterGTE = null,
-  filterDateRegisterLTE = null,
+  filterDateAcquisitionGTE = null,
+  filterDateAcquisitionLTE = null,
   filterInstitution = ""
 ) => {
   return async function (dispatch, getState) {
@@ -294,21 +294,21 @@ export const listCases = (
       const pageVar = `?page=${page}`;
       const pageSizeVar = `&page_size=${pageSize}`;
       const sortColumnVar = `&ordering=${sortColumn}`;
-      var filterDateRegisterGTEVar = "";
-      if (filterDateRegisterGTE != null) {
-        filterDateRegisterGTEVar = `&date_of_acquisition_gte=${filterDateRegisterGTE}`;
+      var filterDateAcquisitionVarGTE = "";
+      if (filterDateAcquisitionGTE != null) {
+        filterDateAcquisitionVarGTE = `&date_of_acquisition_gte=${filterDateAcquisitionGTE}`;
       } else {
-        filterDateRegisterGTEVar = "";
+        filterDateAcquisitionVarGTE = "";
       }
-      const filterDateRegisterLTEVar = `&date_of_acquisition_lte=${filterDateRegisterLTE}`;
+      const filterDateAcquisitionVarLTE = `&date_of_acquisition_lte=${filterDateAcquisitionLTE}`;
       const filterInstitutionVar = `&institution_code=${filterInstitution}`;
 
       const url = baseUrl.concat(
         pageVar,
         pageSizeVar,
         sortColumnVar,
-        filterDateRegisterGTEVar,
-        filterDateRegisterLTEVar,
+        filterDateAcquisitionVarGTE,
+        filterDateAcquisitionVarLTE,
         filterInstitutionVar
       );
 

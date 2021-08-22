@@ -61,19 +61,19 @@ function Dashboard() {
 
   /* Table Search */
   useEffect(() => {
-    var dateRegGTE;
-    if (filters.dateRegisterGTE === null) {
-      dateRegGTE = filters.dateRegisterGTE;
+    var dateAcquisitionGTE;
+    if (filters.dateAcquisitionGTE === null) {
+      dateAcquisitionGTE = filters.dateAcquisitionGTE;
     } else {
-      dateRegGTE = filters.dateRegisterGTE.toISOString().split("T")[0];
+      dateAcquisitionGTE = filters.dateAcquisitionGTE.toISOString().split("T")[0];
     }
     dispatch(
       listCases(
         page,
         pageSize,
         sortColumn,
-        dateRegGTE,
-        filters.dateRegisterLTE.toISOString().split("T")[0],
+        dateAcquisitionGTE,
+        filters.dateAcquisitionLTE.toISOString().split("T")[0],
         filters.institution
       )
     );

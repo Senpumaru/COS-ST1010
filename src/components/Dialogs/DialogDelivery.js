@@ -34,7 +34,6 @@ const useStyles = makeStyles({
   },
 });
 
-
 const SERVER_URL = process.env.REACT_APP_API_SERVER;
 
 function DialogDelivery(props) {
@@ -44,6 +43,7 @@ function DialogDelivery(props) {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.Profile["userLogin"]);
   const { userInfo } = userLogin;
+
   /*** Props ***/
   const {
     openDeliveryDialog,
@@ -52,10 +52,12 @@ function DialogDelivery(props) {
     deliveryError,
     setDeliveryError,
     // Data
-    uuid,
+    code: code,
+    number: number,
   } = props;
 
   const handleCloseDeliveryDialog = () => {
+    console.log(props);
     setOpenDeliveryDialog(false);
   };
 
@@ -65,10 +67,8 @@ function DialogDelivery(props) {
   const handleEmailChange = (event) => {
     setDeliveryEmail(event.target.value);
   };
-  
 
   function handleDelivery() {
-      
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -81,13 +81,13 @@ function DialogDelivery(props) {
     data["editorEmail"] = userInfo.email;
 
     try {
-      axios.post(SERVER_URL + `api/ST1010/cases/${uuid}/delivery/`, data, config).then(function (response) {
+      axios.post(SERVER_URL + `api/ST1010/cases/${code}/${number}/delivery/`, data, config).then(function (response) {
         setDeliverySuccess(true);
         setOpenDeliveryDialog(false);
       });
     } catch (error) {
       setDeliveryError(error.response && error.response.data.Detail ? error.response.data.Detail : error.message);
-      console.log(deliveryError)
+      console.log(deliveryError);
     }
   }
 
@@ -112,7 +112,7 @@ function DialogDelivery(props) {
         </DialogContentText>
         <TextField fullWidth value={deliveryEmail} onChange={handleEmailChange} />
       </DialogContent>
-      
+
       <DialogActions>
         <Button onClick={handleCloseDeliveryDialog} variant="outlined" color="primary">
           Отмена

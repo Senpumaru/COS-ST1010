@@ -36,7 +36,7 @@ function Statistics() {
   const caseStatistics = useSelector((state) => state.ST1010["caseStatistics"]);
   const { errorStats, loadingStats, caseStats } = caseStatistics;
 
-  console.log(caseStats["statistics"]);
+  
 
   return (
     <React.Fragment>

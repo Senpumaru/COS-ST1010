@@ -15,7 +15,7 @@ import {
   caseTransferReducer,
   caseUpdateReducer,
 } from "./reducers/Cases/CaseReducers";
-import { searchReducerALK } from "./reducers/Cases/SearchReducers";
+import { searchReducer } from "./reducers/Cases/SearchReducers";
 
 /*** Reducers ***/
 const reducer = combineReducers({
@@ -32,7 +32,7 @@ const reducer = combineReducers({
     caseList: caseListReducer,
     caseStatistics: caseStatisticsReducer,
     approvalUpdate: approvalUpdateReducer,
-    searchParameters: searchReducerALK,
+    searchParameters: searchReducer,
   }),
 });
 

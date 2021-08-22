@@ -105,10 +105,10 @@ function TableFilters() {
   };
 
   // Date Picker
-  const handleFilterDateRegisterGTE = (event) => {
+  const handleFilterDateAcquisitionGTE = (event) => {
     dispatch(setSearchFilterDateAcquisitionGTE(event));
   };
-  const handleFilterDateRegisterLTE = (event) => {
+  const handleFilterDateAcquisitionLTE = (event) => {
     dispatch(setSearchFilterDateAcquisitionLTE(event));
   };
 
@@ -143,10 +143,10 @@ function TableFilters() {
                     variant="inline"
                     inputVariant="outlined"
                     label="Дата получения (от)"
-                    maxDate={filters.dateRegisterLTE}
+                    maxDate={filters.dateAcquisitionLTE}
                     maxDateMessage={"Неправильно выбрана дата"}
-                    value={filters.dateRegisterGTE}
-                    onChange={handleFilterDateRegisterGTE}
+                    value={filters.dateAcquisitionGTE}
+                    onChange={handleFilterDateAcquisitionGTE}
                     format="dd/MM/yyyy"
                   />
                 </MuiPickersUtilsProvider>
@@ -159,8 +159,8 @@ function TableFilters() {
                     inputVariant="outlined"
                     label="Дата получения (до)"
                     maxDate={new Date()}
-                    value={filters.dateRegisterLTE}
-                    onChange={handleFilterDateRegisterLTE}
+                    value={filters.dateAcquisitionLTE}
+                    onChange={handleFilterDateAcquisitionLTE}
                     format="dd/MM/yyyy"
                   />
                 </MuiPickersUtilsProvider>

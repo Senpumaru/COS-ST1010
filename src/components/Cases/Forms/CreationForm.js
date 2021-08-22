@@ -284,7 +284,7 @@ function CreationForm() {
                   onChange={setOrderNumber}
                 />
               </Grid>
-              <Grid item md={12} sm={8} xs={12}>
+              <Grid item md={12} sm={12} xs={12}>
                 <Controller
                   name="diagnosis"
                   control={control}

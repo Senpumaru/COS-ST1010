@@ -31,6 +31,7 @@ const useRowStyles = makeStyles({
 const SERVER_URL = process.env.REACT_APP_API_SERVER;
 
 function CaseArchive({ history, match }) {
+
   /*** Material UI Styles ***/
   const classes = useRowStyles();
 
@@ -41,6 +42,7 @@ function CaseArchive({ history, match }) {
   /*** Local States ***/
   const [loadingArchive, setLoadingArchive] = useState(true);
   const [cases, setCases] = useState([]);
+  console.log(cases);
 
   // Axios GET Request (CASE ARCHIVE)
   const getCaseArchive = async () => {
@@ -63,7 +65,7 @@ function CaseArchive({ history, match }) {
         // Catch
       } catch (error) {
         error = error;
-        setDeliveryError(true)
+        setDeliveryError(true);
       }
     };
     axiosDelivery();
@@ -81,94 +83,16 @@ function CaseArchive({ history, match }) {
 
   // Open Dialogue
   const handleOpenDeliveryDialog = () => {
-    console.log();
     setOpenDeliveryDialog(true);
   };
-
-  function Deliveries() {
-    return <div>small test</div>;
-  }
 
   useEffect(async () => {
     setLoadingArchive(true);
     setTimeout(() => {
       getCaseArchive();
     }, 2000);
-  }, []);
-
-  function Versions() {
-    if (cases.length >= 1) {
-      return cases?.map((parameter) => (
-        <React.Fragment key={parameter.version}>
-          <Grid
-            container
-            direction="column"
-            justify="flex-start"
-            alignItems="stretch"
-            item
-            md={12}
-            sm={12}
-            xs={12}
-            spacing={1}
-          >
-            <Card>
-              <CardContent>
-                <Typography className={classes.tabSubTitle}>Версия: {parameter.version.toFixed(2)}</Typography>
-                <Grid container direction="column" justify="flex-start" alignItems="stretch" item xs={6}>
-                  <div style={{ display: "flex", alignItems: "baseline" }}>
-                    <Typography className={classes.tabText}>Дата оформления отчета:</Typography>
-                    <Typography style={{ marginLeft: 10 }}>{parameter.date_of_report}</Typography>
-                  </div>
-                </Grid>
-                <Grid container direction="row" justify="space-between" alignItems="flex-start" item xs={12}>
-                  {parameter.case_editor ? (
-                    <React.Fragment>
-                      <Grid item>
-                        PDF версия:
-                        <IconButton className={classes.icons} onClick={() => handleCasePDF(parameter.uuid)}>
-                          <Tooltip title="PDF отчет" aria-label="PDF">
-                            <PictureAsPdfIcon />
-                          </Tooltip>
-                        </IconButton>
-                      </Grid>
-                      {parameter.case_editor.id === userInfo.id ? (
-                        <React.Fragment>
-                          <Button variant="contained" color="primary" onClick={() => handleOpenDeliveryDialog()}>
-                            Отправить отчет
-                          </Button>
-                          <DialogDelivery
-                            openDeliveryDialog={openDeliveryDialog}
-                            setOpenDeliveryDialog={setOpenDeliveryDialog}
-                            setDeliverySuccess={setDeliverySuccess}
-                            deliveryError={deliveryError}
-                            setDeliveryError={setDeliveryError}
-                            // Data
-                            uuid={parameter.uuid}
-                          />
-                        </React.Fragment>
-                      ) : (
-                        <Alert severity="info">Отправка недоступна</Alert>
-                      )}
-                    </React.Fragment>
-                  ) : (
-                    <Typography>Отчет недоступен</Typography>
-                  )}
-                </Grid>
-                <Grid container direction="column" item xs={12}>
-                  <Typography className={classes.tabSubTitle}>История:</Typography>
-                  <Grid item xs={12}>
-                    <Deliveries />
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
-          </Grid>
-        </React.Fragment>
-      ));
-    } else {
-      return <div></div>;
-    }
-  }
+    setDeliverySuccess(false);
+  }, [deliverySuccess]);
 
   return (
     <React.Fragment>
@@ -178,8 +102,87 @@ function CaseArchive({ history, match }) {
         </Typography>
         {loadingArchive && <Loader></Loader>}
         <Grid container direction="row" justify="space-between" alignItems="flex-start" spacing={2}>
-          {Versions()}
+          {cases?.length >= 1 &&
+            cases?.map((parameter) => (
+              <React.Fragment key={parameter.version}>
+                <Grid
+                  container
+                  direction="column"
+                  justify="flex-start"
+                  alignItems="stretch"
+                  item
+                  md={12}
+                  sm={12}
+                  xs={12}
+                  spacing={1}
+                >
+                  <Card>
+                    <CardContent>
+                      <Typography className={classes.tabSubTitle}>Версия: {parameter.version.toFixed(2)}</Typography>
+                      <Grid container direction="column" justify="flex-start" alignItems="stretch" item xs={6}>
+                        <div style={{ display: "flex", alignItems: "baseline" }}>
+                          <Typography className={classes.tabText}>Дата оформления отчета:</Typography>
+                          <Typography style={{ marginLeft: 10 }}>{parameter.date_of_report} </Typography>
+                        </div>
+                      </Grid>
+                      <Grid container direction="row" justify="space-between" alignItems="flex-start" item xs={12}>
+                        {parameter.case_editor ? (
+                          <React.Fragment>
+                            <Grid item>
+                              PDF версия:
+                              <IconButton className={classes.icons} onClick={() => handleCasePDF(parameter.uuid)}>
+                                <Tooltip title="PDF отчет" aria-label="PDF">
+                                  <PictureAsPdfIcon />
+                                </Tooltip>
+                              </IconButton>
+                            </Grid>
+                            {parameter.case_editor.id === userInfo.id && parameter.version_state === "Verified" ? (
+                              <React.Fragment>
+                                <Button variant="contained" color="primary" onClick={() => handleOpenDeliveryDialog()}>
+                                  Отправить отчет
+                                </Button>
+                              </React.Fragment>
+                            ) : (
+                              <Alert severity="info">Отправка недоступна</Alert>
+                            )}
+                          </React.Fragment>
+                        ) : (
+                          <Typography>Отчет недоступен</Typography>
+                        )}
+                      </Grid>
+                      <Typography className={classes.tabSubTitle}>История:</Typography>
+                      <Grid container direction="row" justify="space-between" alignItems="flex-start" item xs={12}>
+                        {parameter.case_deliveries?.map((parameter) => (
+                          <React.Fragment key={parameter.id}>
+                            <Grid container>
+                              <Grid item sm={4} xs={12}>
+                                Отправлено: {parameter.date_of_delivery}
+                              </Grid>
+                              <Grid item sm={4} xs={12}>
+                                Кому: {parameter.email_recipient}
+                              </Grid>
+                            </Grid>
+                          </React.Fragment>
+                        ))}
+                      </Grid>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </React.Fragment>
+            ))}
         </Grid>
+
+        <DialogDelivery
+          openDeliveryDialog={openDeliveryDialog}
+          setOpenDeliveryDialog={setOpenDeliveryDialog}
+          setDeliverySuccess={setDeliverySuccess}
+          deliveryError={deliveryError}
+          setDeliveryError={setDeliveryError}
+          // Data
+          number={match.params.number}
+          code={match.params.code}
+
+        />
       </Box>
     </React.Fragment>
   );
