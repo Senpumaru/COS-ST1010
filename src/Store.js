@@ -36,7 +36,7 @@ const reducer = combineReducers({
   }),
 });
 
-/* Profile Storage */
+/** Profile Storage **/
 const userInfoFromStorage = sessionStorage.getItem("userInfo")
   ? JSON.parse(sessionStorage.getItem("userInfo"))
   : null;

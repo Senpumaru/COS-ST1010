@@ -1,11 +1,5 @@
 import DateFnsUtils from "@date-io/date-fns";
-import {
-  Box, Grid,
-  makeStyles,
-  MenuItem,
-  TextField,
-  Typography
-} from "@material-ui/core";
+import { Box, FormControl, Grid, makeStyles, MenuItem, TextField, Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -17,10 +11,7 @@ import ruLocale from "date-fns/locale/ru";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  caseDetailsAction,
-  caseUpdateAction
-} from "../../../actions/Cases/CaseActions";
+import { caseDetailsAction, caseUpdateAction } from "../../../actions/Cases/CaseActions";
 import DialogDelete from "../../Dialogs/DialogDelete";
 import Loader from "../../Loader";
 
@@ -74,14 +65,14 @@ const INSTITUTION_CHOICES = [
 
 const CASE_CHOICES = [
   {
-    value:
-      "Гранулярное цитоплазматическое окрашивание опухолевых клеток высокой интенсивности не определяется",
-    label: "Гранулярное окрашивание высокой интенсивности не определяется",
+    value: "Гранулярное цитоплазматическое окрашивание опухолевых клеток высокой интенсивности не определяется",
+    label: "Гранулярное цитоплазматическое окрашивание опухолевых клеток высокой интенсивности не определяется",
   },
   {
     value:
       "В большинстве опухолевых клеток определяется гранулярное цитоплазматическое окрашивание высокой интенсивности",
-    label: "В большинстве определяется окрашивание высокой интенсивности",
+    label:
+      "В большинстве опухолевых клеток определяется гранулярное цитоплазматическое окрашивание высокой интенсивности",
   },
 ];
 
@@ -253,6 +244,7 @@ function UpdateForm({ history, match }) {
     } else {
       data["caseConsultants"] = [];
     }
+    console.log(data);
 
     dispatch(caseUpdateAction(data));
   };
@@ -303,7 +295,6 @@ function UpdateForm({ history, match }) {
           </Button>
         );
       } else if (
-        (userInfo.credentials["registrar"] || userInfo.credentials["clinician"]) &&
         (userInfo.id === instance?.case_creator?.id || userInfo.id === instance?.case_assistant?.id)
       ) {
         return (
@@ -372,13 +363,7 @@ function UpdateForm({ history, match }) {
               <Typography className={classes.cardTitle} color="textSecondary" gutterBottom>
                 <strong>Форма заполнения</strong>
               </Typography>
-              <Grid
-                container
-                item
-                direction={"row"}
-                alignItems={"flex-start"}
-                justify={"flex-start"}
-              >
+              <Grid container item direction={"row"} alignItems={"flex-start"} justify={"flex-start"}>
                 <Grid container item xs={12} spacing={1}>
                   <Grid item md={4} sm={6} xs={12}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
@@ -434,37 +419,37 @@ function UpdateForm({ history, match }) {
                       />
                     </MuiPickersUtilsProvider>
                   </Grid>
-                  <Grid item md={6} sm={8} xs={12}>
-                    <Controller
-                      name="institutionCode"
-                      defaultValue={""}
-                      control={control}
-                      rules={{
-                        required: "Укажите организацию",
-                      }}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          fullWidth
-                          select
-                          label="Организация"
-                          variant="outlined"
-                          error={errors.institutionCode ? true : false}
-                          helperText={
-                            errors?.institutionCode
-                              ? errors.institutionCode.message
-                              : `Code: ${field.value}`
-                          }
-                        >
-                          {INSTITUTION_CHOICES.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                      )}
-                    />
-                  </Grid>
+                  
+                    <Grid item md={6} sm={8} xs={12}>
+                      <Controller
+                        name="institutionCode"
+                        defaultValue={""}
+                        control={control}
+                        rules={{
+                          required: "Укажите организацию",
+                        }}
+                        render={({ field }) => (
+                          <TextField
+                            {...field}
+                            fullWidth
+                            select
+                            label="Организация"
+                            variant="outlined"
+                            error={errors.institutionCode ? true : false}
+                            helperText={
+                              errors?.institutionCode ? errors.institutionCode.message : `Code: ${field.value}`
+                            }
+                          >
+                            {INSTITUTION_CHOICES.map((option) => (
+                              <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        )}
+                      />
+                    </Grid>
+                  
                   <Grid item md={2} sm={4} xs={12}>
                     <TextField
                       required
@@ -591,14 +576,7 @@ function UpdateForm({ history, match }) {
                   </Grid>
                 </Grid>
                 <hr />
-                <Grid
-                  container
-                  item
-                  direction={"row"}
-                  alignItems={"flex-start"}
-                  justify={"flex-start"}
-                  spacing={1}
-                >
+                <Grid container item direction={"row"} alignItems={"flex-start"} justify={"flex-start"} spacing={1}>
                   <Grid container item xs={12}>
                     <Grid item xs={6}>
                       Блоки
@@ -612,7 +590,7 @@ function UpdateForm({ history, match }) {
                       return (
                         <Grid item key={index} md={6} sm={12} xs={12}>
                           <TextField
-                            required
+                            required={userInfo.id === instance?.case_editor?.id}
                             fullWidth
                             name="blockCode"
                             label="Блок"
@@ -667,7 +645,7 @@ function UpdateForm({ history, match }) {
                       return (
                         <Grid item key={index} md={6} sm={12} xs={12}>
                           <TextField
-                            required
+                            
                             fullWidth
                             name="slideCode"
                             label="Блок"
@@ -694,7 +672,7 @@ function UpdateForm({ history, match }) {
                           defaultValue={""}
                           control={control}
                           rules={{
-                            required: "Обязательное поле",
+                            
                             pattern: {
                               value: /\d*/i,
                               message: "Incorrect pattern",
@@ -749,10 +727,7 @@ function UpdateForm({ history, match }) {
                                 color="primary"
                                 variant="outlined"
                                 error={errors.microscopicDescription ? true : false}
-                                helperText={
-                                  errors?.microscopicDescription &&
-                                  errors.microscopicDescription.message
-                                }
+                                helperText={errors?.microscopicDescription && errors.microscopicDescription.message}
                                 // onChange={(event) => setmicroscopicDescription(event.target.value)}
                               />
                             )}
@@ -781,44 +756,43 @@ function UpdateForm({ history, match }) {
                                 color="primary"
                                 variant="outlined"
                                 error={errors.histologicalDescription ? true : false}
-                                helperText={
-                                  errors?.histologicalDescription &&
-                                  errors.histologicalDescription.message
-                                }
+                                helperText={errors?.histologicalDescription && errors.histologicalDescription.message}
                               />
                             )}
                           />
                         </Grid>
-                        <Grid item md={12} s={12} xs={12}>
-                          <Controller
-                            name="stainingPattern"
-                            control={control}
-                            defaultValue=""
-                            rules={{
-                              required: "Обязательное поле",
-                            }}
-                            render={({ field }) => (
-                              <TextField
-                                {...field}
-                                fullWidth
-                                select
-                                helperText=""
-                                label="Паттерн"
-                                name="stainingPattern"
-                                // value={stainingPattern}
-                                defaultValue=""
-                                color="primary"
-                                variant="outlined"
-                                // onChange={(event) => setstainingPattern(event.target.value)}
-                              >
-                                {CASE_CHOICES.map((option) => (
-                                  <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                  </MenuItem>
-                                ))}
-                              </TextField>
-                            )}
-                          />
+                        <Grid item md={12} sm={12} xs={12}>
+                          <FormControl style={{ maxWidth: "30rem" }}>
+                            <Controller
+                              name="stainingPattern"
+                              control={control}
+                              defaultValue=""
+                              rules={{
+                                required: "Обязательное поле",
+                              }}
+                              render={({ field }) => (
+                                <TextField
+                                  {...field}
+                                  select
+                                  fullWidth
+                                  helperText=""
+                                  label="Паттерн"
+                                  name="stainingPattern"
+                                  // value={stainingPattern}
+                                  defaultValue=""
+                                  color="primary"
+                                  variant="outlined"
+                                  // onChange={(event) => setstainingPattern(event.target.value)}
+                                >
+                                  {CASE_CHOICES.map((option) => (
+                                    <MenuItem key={option.value} value={option.value}>
+                                      {option.label}
+                                    </MenuItem>
+                                  ))}
+                                </TextField>
+                              )}
+                            />
+                          </FormControl>
                         </Grid>
                         <Grid item md={4} s={4} xs={4}>
                           <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
@@ -868,10 +842,7 @@ function UpdateForm({ history, match }) {
                                 defaultValue={""}
                                 variant="outlined"
                                 error={errors.clinicalInterpretation ? true : false}
-                                helperText={
-                                  errors?.clinicalInterpretation &&
-                                  errors.clinicalInterpretation.message
-                                }
+                                helperText={errors?.clinicalInterpretation && errors.clinicalInterpretation.message}
 
                                 // onChange={(event) => setclinicalInterpretation(event.target.value)}
                               >
