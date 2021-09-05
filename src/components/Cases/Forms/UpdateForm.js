@@ -762,7 +762,7 @@ function UpdateForm({ history, match }) {
                           />
                         </Grid>
                         <Grid item md={12} sm={12} xs={12}>
-                          <FormControl style={{ maxWidth: "30rem" }}>
+                          
                             <Controller
                               name="stainingPattern"
                               control={control}
@@ -792,7 +792,7 @@ function UpdateForm({ history, match }) {
                                 </TextField>
                               )}
                             />
-                          </FormControl>
+                          
                         </Grid>
                         <Grid item md={4} s={4} xs={4}>
                           <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
